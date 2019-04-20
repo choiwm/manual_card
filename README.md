@@ -1,21 +1,16 @@
-# 페이플 - 계좌 간편결제, 정기결제  
-페이플 계좌간편결제는 최초 1회 계좌등록 후 비밀번호만으로 결제 가능한 서비스입니다.<br> 
-ARS 인증만으로 계좌등록과 결제가 완료되기 때문에 별도 앱설치, 보안카드, 공인인증서 등이 필요없습니다.<br>
-그리고 페이플은 계좌간편결제 뿐 아니라 정기구독 서비스를 위한 계좌정기결제, PG의 실시간계좌이체를 대체하는 단건결제 서비스도 제공하고 있습니다. 
+# 페이플 - 카드 일반결제, 정기결제  
+페이플은 계좌 뿐 아니라 카드결제도 제공합니다.<br> 
+앱카드 결제고객을 위한 일반결제와 함께 정기배송, 정기구독 서비스를 위한 정기결제를 함께 제공합니다.
 
 <br><br><br>
 ## 결제서비스별 흐름도 
 각 결제서비스의 흐름도입니다. 동일한 조건으로 모든 결제서비스를 이용할 수 있습니다. <br>
 ![Alt text](/img/process_card.jpeg)
-
 <br><br><br>
 ## 공통 정의사항 
 * 인코딩 : UTF-8 <br>
 * SSL 보안통신 필수 <br>
 * 메세지 포맷 : JSON <br>
-<br><br><br>
-## 샘플 페이지 
-참고 가능한 [샘플 페이지](/sample) 폴더입니다. 
 <br><br><br>
 ## 가맹점 인증 
 * Payple 서비스를 이용하기 위해서는 가맹점 계약을 통한 인증이 필요하지만 계약 전 **_테스트 계정을 통해 개발진행이 가능합니다._** 계약 완료 후 Payple 에서 가맹점에 아래의 키를 발급합니다. 
@@ -29,11 +24,11 @@ ARS 인증만으로 계좌등록과 결제가 완료되기 때문에 별도 앱�
 URL | https://testcpay.payple.kr/php/auth.php | https://cpay.payple.kr/php/auth.php
 ID | cst_id : test | cst_id : 가맹점 운영 ID 
 KEY | custKey : abcd1234567890 | custKey : ID 매칭 Key
-비고 | - 인증은 진행되지만 출금은 되지 않습니다.<br>- 최소금액 1,000원 이상으로 테스트 해주세요. | - 실제 출금이 되며, 최소금액 1,000원부터 출금 가능합니다. 수수료도 발생합니다.<br>**- AWS(아마존웹서비스)에서 AUTH0004 오류 발생 시 가맹점 서버도메인의 REFERER 추가가 필요할 수 있습니다.**<br>**- 카페24, 가비아 등 서버호스팅 이용 시 호스팅사에 페이플 URL(테스트, 운영) 방화벽 오픈을 요청하셔야 할 수 있습니다.**   
+비고 | - 테스트 승인이후 일괄 자동취소가 진행됩니다. | - 실제 승인이 진행됩니다.<br>**- AWS(아마존웹서비스)에서 AUTH0004 오류 발생 시 가맹점 서버도메인의 REFERER 추가가 필요할 수 있습니다.**<br>**- 카페24, 가비아 등 서버호스팅 이용 시 호스팅사에 페이플 URL(테스트, 운영) 방화벽 오픈을 요청하셔야 할 수 있습니다.**   
 * 호출을 위한 [각 언어별 샘플](/sample/language)을 확인해보세요. 
 <br><br><br>
 #### 호출예시 
-* 계좌등록 간편결제 - Request 
+* 카드 일반결제 - Request 
 ```html
 POST /php/auth.php HTTP/1.1
 Host: testcpay.payple.kr
@@ -60,173 +55,6 @@ Cache-Control: no-cache
   "return_url": "https://cpay.payple.kr/php/SimplePayAct.php?ACT_=PAYM",
   "cPayHost": "https://cpay.payple.kr",
   "cPayUrl": "/php/SimplePayAct.php?ACT_=PAYM"
-}
-```
-* 단건결제 - Request 
-```html
-POST /php/auth.php HTTP/1.1
-Host: testcpay.payple.kr
-Content-Type: application/json
-<!-- AWS 이용 가맹점인 경우 REFERER 추가 -->
-Referer: http://가맹점 도메인 
-<!-- End : AWS 이용 가맹점인 경우 REFERER 추가 -->
-Cache-Control: no-cache
-{
-  "cst_id": "test",
-  "custKey": "abcd1234567890"
-}
-```
-* 단건결제 - Response
-```html
-{
-  "result": "success",
-  "result_msg": "사용자 인증완료",
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "return_url": "https://cpay.payple.kr/php/PayAct.php?ACT_=PAYM",
-  "cPayHost": "https://cpay.payple.kr",
-  "cPayUrl": "/php/SimplePayAct.php?ACT_=PAYM"
-}
-```
-* 정기결제 - Request 
-```html
-POST /php/auth.php HTTP/1.1
-Host: testcpay.payple.kr
-Content-Type: application/json
-<!-- AWS 이용 가맹점인 경우 REFERER 추가 -->
-Referer: http://가맹점 도메인 
-<!-- End : AWS 이용 가맹점인 경우 REFERER 추가 -->
-Cache-Control: no-cache
-{
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "PCD_REGULER_FLAG": "Y"
-}
-```
-* 정기결제 - Response
-```html
-{
-  "result": "success",
-  "result_msg": "사용자 인증완료",
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "return_url": "https://cpay.payple.kr/php/RePayAct.php?ACT_=PAYM",
-  "cPayHost": "https://cpay.payple.kr",
-  "cPayUrl": "/php/SimplePayAct.php?ACT_=PAYM"
-}
-```
-* 링크결제 - Request 
-```html
-POST /php/auth.php HTTP/1.1
-Host: testcpay.payple.kr
-Content-Type: application/json
-<!-- AWS 이용 가맹점인 경우 REFERER 추가 -->
-Referer: http://가맹점 도메인 
-<!-- End : AWS 이용 가맹점인 경우 REFERER 추가 -->
-Cache-Control: no-cache
-{
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "PCD_PAY_WORK": "LINKREG"
-}
-```
-* 링크결제 - Response
-```html
-{
-  "result": "success",
-  "result_msg": "사용자 인증완료",
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "PCD_PAY_HOST": "https://testcpay.payple.kr",
-  "PCD_PAY_URL": "/php/link/api/LinkRegAct.php?ACT_=LINKREG",
-  "return_url": "https://cpay.payple.kr/php/link/api/LinkRegAct.php?ACT_=LINKREG"
-}
-```
-* 현금영수증 발행 - Request 
-```html
-POST /php/auth.php HTTP/1.1
-Host: testcpay.payple.kr
-Content-Type: application/json
-<!-- AWS 이용 가맹점인 경우 REFERER 추가 -->
-Referer: http://가맹점 도메인 
-<!-- End : AWS 이용 가맹점인 경우 REFERER 추가 -->
-Cache-Control: no-cache
-{
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "PCD_PAY_WORK": "TSREG"
-}
-```
-* 현금영수증 발행 - Response
-```html
-{
-  "result": "success|error",
-  "result_msg": "사용자 인증완료",
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "PCD_PAY_HOST": "https://testcpay.payple.kr",
-  "PCD_PAY_URL": "/php/taxsave/api/tsAct.php?ACT_=TSREG",
-  "return_url": "https://cpay.payple.kr/php/taxsave/api/tsAct.php?ACT_=TSREG"
-}
-```
-* 현금영수증 취소 - Request 
-```html
-POST /php/auth.php HTTP/1.1
-Host: testcpay.payple.kr
-Content-Type: application/json
-<!-- AWS 이용 가맹점인 경우 REFERER 추가 -->
-Referer: http://가맹점 도메인 
-<!-- End : AWS 이용 가맹점인 경우 REFERER 추가 -->
-Cache-Control: no-cache
-{
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "PCD_PAY_WORK": "TSCANCEL"
-}
-```
-* 현금영수증 취소 - Response
-```html
-{
-  "result": "success|error",
-  "result_msg": "사용자 인증완료",
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "PCD_PAY_HOST": "https://testcpay.payple.kr",
-  "PCD_PAY_URL": "/php/taxsave/api/tsAct.php?ACT_=TSCANCEL",
-  "return_url": "https://cpay.payple.kr/php/taxsave/api/tsAct.php?ACT_=TSCANCEL"
-}
-```
-* 기 등록계좌 해지 - Request 
-```html
-POST /php/auth.php HTTP/1.1
-Host: testcpay.payple.kr
-Content-Type: application/json
-<!-- AWS 이용 가맹점인 경우 REFERER 추가 -->
-Referer: http://가맹점 도메인 
-<!-- End : AWS 이용 가맹점인 경우 REFERER 추가 -->
-Cache-Control: no-cache
-{
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "PCD_PAY_WORK": "PUSERDEL"
-}
-```
-* 기 등록계좌 해지 - Response
-```html
-{
-  "result": "success",
-  "result_msg": "사용자 인증완료",
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "PCD_PAY_HOST": "https://testcpay.payple.kr",
-  "PCD_PAY_URL": "/php/cPayUser/api/cPayUserAct.php?ACT_=PUSERDEL",
-  "return_url": "https://cpay.payple.kr/php/cPayUser/api/cPayUserAct.php?ACT_=PUSERDEL"
 }
 ```
 <br><br><br>
