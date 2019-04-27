@@ -25,6 +25,7 @@ URL | https://testcpay.payple.kr/php/auth.php | https://cpay.payple.kr/php/auth.
 ID | cst_id : test | cst_id : 가맹점 운영 ID 
 KEY | custKey : abcd1234567890 | custKey : ID 매칭 Key
 비고 | - 테스트 승인이후 일괄 자동취소가 진행됩니다. | - 실제 승인이 진행됩니다.<br>**- AWS(아마존웹서비스)에서 AUTH0004 오류 발생 시 가맹점 서버도메인의 REFERER 추가가 필요할 수 있습니다.**<br>**- 카페24, 가비아 등 서버호스팅 이용 시 호스팅사에 페이플 URL(테스트, 운영) 방화벽 오픈을 요청하셔야 할 수 있습니다.**   
+
 <br><br><br>
 #### 호출예시 
 * 카드 일반결제 - Request 
