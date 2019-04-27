@@ -14,7 +14,7 @@
 <br><br><br>
 ## 가맹점 인증 
 * 가맹점 인증방식은 [계좌](../../../manual#가맹점-인증)와 동일합니다. 
-* Payple 서비스를 이용하기 위해서는 가맹점 계약을 통한 인증이 필요하지만 계약 전 **_테스트 계정을 통해 개발진행이 가능합니다._** 계약 완료 후 Payple 에서 가맹점에 아래의 키를 발급합니다. 
+* Payple 서비스를 이용하기 위해서는 가맹점 계약을 통한 인증이 필요하지만 계약 전 **_테스트 계정을 통해 개발진행이 가능합니다._** 계약 완료 후 Payple 에서 가맹점에 아래의 키를 발급합니다.<br><br> 
   * cst_id (가맹점 식별을 위한 가맹점 ID)
   * custKey (API 통신전문 변조를 방지하기 위한 비밀키) 
 <br><br><br>
@@ -118,12 +118,11 @@ Cache-Control: no-cache
 * 페이플은 자바스크립트만을 이용해 모든 결제절차를 진행합니다. <br><br>
 * 앱카드 사용자를 위한 **일반결제** 화면입니다.<br><br>
 ![Alt text](/img/card_genaral.png) <br><br>
-* **정기결제** 화면입니다. 카드번호, 유효기간, 생년월일, 비밀번호 입력이 필요합니다.<br><br>
+* **정기결제** 화면입니다. 이용을 위해서는 별도 심사가 필요하며 카드번호, 유효기간, 생년월일, 비밀번호 입력으로 결제가 진행됩니다.<br><br>
 ![Alt text](/img/card_bill.png) <br><br>
 * 정기결제에서 최초결제없이 **카드등록만 하기 위해서는 obj.PCD_PAY_WORK = 'AUTH'** 로 세팅하시면 됩니다.<br><br>
 ![Alt text](/img/card_reg.png) <br><br>
 * 아래 소스코드를 가맹점 주문페이지에 추가합니다.
-* 자세한 내용은 [order_confirm.html 샘플](/sample/order_confirm.html)을 참고하시면 됩니다. 
 ```html
 <!-- payple js 호출. 테스트/운영 선택 -->
 <script src="https://testcpay.payple.kr/js/cpay.payple.1.0.1.js"></script> <!-- 테스트 -->
@@ -131,30 +130,7 @@ Cache-Control: no-cache
 
 <!-- 가맹점 주문페이지 '결제하기' 버튼 액션 -->
 <script>	
-$(document).ready( function () {    
-    /*
-     * Payple ID, KEY, AUTH_URL 가져오기
-     */
-     
-    var cfg = new Object();
-    var cfg_file_url = "/cPayPayple/payple.cgi";
-    /* 결과를 콜백 함수로 받고자 하는 경우 함수 추가 */
-    var getResult = function (res) {  // getResult : 콜백 함수명 
-    };
-    /* End : 결과를 콜백 함수로 받고자 하는 경우 함수 추가 */
-    
-    $.get(cfg_file_url, function(data) {
-        
-        var lines = data.split("\n");
-        
-        $.each(lines, function (n, elem) {
-            var n_data = elem.split(" = ");
-            if (n_data[0] == 'PCD_CST_ID') cfg.PCD_CST_ID = n_data[1];
-            if (n_data[0] == 'PCD_CUST_KEY') cfg.PCD_CUST_KEY = n_data[1];
-            if (n_data[0] == 'PCD_AUTH_URL') cfg.PCD_AUTH_URL = n_data[1];
-        });
-    });
-    
+$(document).ready( function () {        
     $('#payAction').on('click', function (event) {
         
         var pay_work = "PAY";
@@ -169,30 +145,25 @@ $(document).ready( function () {
         var is_reguler = "N";
         var pay_year = "";
         var pay_month = "";
-        var is_taxsave = "N";
         
         var obj = new Object();
         
-        obj.PCD_CST_ID = cfg.PCD_CST_ID;
-        obj.PCD_CUST_KEY = cfg.PCD_CUST_KEY;
-        obj.PCD_AUTH_URL = cfg.PCD_AUTH_URL;
         obj.PCD_CPAY_VER = "1.0.1";
-        obj.PCD_PAY_TYPE = 'transfer';           
+        obj.PCD_PAY_TYPE = 'card';           
         obj.PCD_PAY_WORK = pay_work;
-        obj.PCD_PAYER_AUTHTYPE = 'pwd'; 
+	obj.PCD_CARD_VER = "02"
+	/* (필수) 가맹점 인증요청 파일 (Node.JS : auth => [app.js] app.post('/pg/auth', ...) */
+        obj.payple_auth_file = '/pg/auth'; // 절대경로 포함 파일명 (예: /절대경로/payple_auth_file)
+	/* End : 가맹점 인증요청 파일 */
+	
 	/* 결과를 콜백 함수로 받고자 하는 경우 함수 설정 추가 */
         obj.callbackFunction = getResult;  // getResult : 콜백 함수명 
         /* End : 결과를 콜백 함수로 받고자 하는 경우 함수 설정 추가 */
+	
 	/* 결과를 콜백 함수가 아닌 URL로 받고자 하는 경우 */
 	obj.PCD_RST_URL = '/order_result.html';
 	/* End : 결과를 콜백 함수가 아닌 URL로 받고자 하는 경우 */
-	
-        /*
-         * 1. 간편결제
-         */
-        //-- PCD_PAYER_ID 는 소스상에 표시하지 마시고 반드시 Server Side Script 를 이용하여 불러오시기 바랍니다. --//
-        obj.PCD_PAYER_ID = payple_payer_id;           
-        //-------------------------------------------------------------------------------------//          
+	 
         obj.PCD_PAYER_NO = buyer_no;  
         obj.PCD_PAYER_EMAIL = buyer_email;
         obj.PCD_PAY_GOODS = buy_goods;
@@ -201,29 +172,6 @@ $(document).ready( function () {
         obj.PCD_REGULER_FLAG = is_reguler;
         obj.PCD_PAY_YEAR = pay_year; 
         obj.PCD_PAY_MONTH = pay_month;
-        obj.PCD_TAXSAVE_FLAG = is_taxsave; 
-        obj.PCD_SIMPLE_FLAG = 'Y'; 
-	/*
-         * End : 1. 간편결제
-         */
-        
-        /*
-         * 2. 단건결제
-         */
-        obj.PCD_PAYER_NO = buyer_no;
-        obj.PCD_PAYER_NAME = buyer_name;
-        obj.PCD_PAYER_HP = buyer_hp;
-        obj.PCD_PAYER_EMAIL = buyer_email;
-        obj.PCD_PAY_GOODS = buy_goods; 
-        obj.PCD_PAY_TOTAL = buy_total;
-        obj.PCD_PAY_OID = order_num; 
-        obj.PCD_REGULER_FLAG = is_reguler;
-        obj.PCD_PAY_YEAR = pay_year;       
-        obj.PCD_PAY_MONTH = pay_month;
-        obj.PCD_TAXSAVE_FLAG = is_taxsave;        
-	/*
-         * End : 2. 단건결제 
-         */
 	
         PaypleCpayAuthCheck(obj);
             
@@ -235,18 +183,12 @@ $(document).ready( function () {
 
 파라미터 ID | 설명 | 필수 | 비고
 :----: | :----: | :----: | ----
-PCD_CST_ID | 가맹점인증 ID | O | 
-PCD_CUST_KEY | 가맹점인증 KEY | O |
-PCD_AUTH_URL | 가맹점인증 서버 URL | O |
-PCD_CPAY_VER | 결제창 버전 | O | 
+PCD_CPAY_VER | 결제창 버전 | O | 최신 : 1.0.1 
 PCD_PAY_TYPE | 결제수단 | O | 
 PCD_PAY_WORK | 결제요청 방식 | O | - AUTH : 계좌등록만 진행<br>- CERT : 가맹점 최종승인 후 계좌등록+결제 진행<br>- PAY : 가맹점 최종승인없이 계좌등록+결제 진행 
-PCD_PAYER_AUTHTYPE | 간편결제 인증방식 | - | - PCD_SIMPLE_FLAG : 'Y' 일때 필수<br>- pwd : 결제비밀번호
+PCD_CARD_VER | 일반/정기결제 | O | - 01 : 정기<br>- 02 : 일반 
 PCD_RST_URL | 결제(요청)결과 RETURN URL | O | - 결제결과를 콜백 함수가 아닌 URL로 수신할 경우만 해당<br>- 모바일에서 팝업방식은 상대경로, 다이렉트 방식은 절대경로로 설정  
-PCD_PAYER_ID | 결제 키 | O | 해당 키를 통해 결제요청
 PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | O | maxlength=10
-PCD_PAYER_NAME | 결제고객 이름 | - | 
-PCD_PAYER_HP | 결제고객 휴대폰번호 | - |  
 PCD_PAYER_EMAIL | 결제고객 이메일 | - | 
 PCD_PAY_GOODS | 상품명 | O | 
 PCD_PAY_TOTAL | 결제금액 | O | 
@@ -254,8 +196,6 @@ PCD_PAY_OID | 주문번호 | - | 미입력시 임의생성
 PCD_REGULER_FLAG | 정기결제 여부 | - | 
 PCD_PAY_YEAR | 정기결제 적용연도 | - | PCD_REGULER_FLAG : 'Y' 일때 필수
 PCD_PAY_MONTH | 정기결제 적용월 | - | PCD_REGULER_FLAG : 'Y' 일때 필수
-PCD_TAXSAVE_FLAG | 현금영수증 발행 여부<br> | O | Y=발행 / N=미발행
-PCD_SIMPLE_FLAG | 간편결제 여부 | - | 
 
 <br><br>
 #### 1-1. 결제생성 후 승인(PCD_PAY_WORK : CERT) 
