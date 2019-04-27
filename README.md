@@ -230,21 +230,12 @@ PCD_PAYER_ID | 결제고객 고유 ID | O |
 * 가맹점의 최종 승인없이 즉시 결제를 진행하며 별도 Request 는 없습니다.  
 
 <br><br><br>
-### 2. 이후결제 - 계좌등록 간편결제(PCD_PAYER_AUTHTYPE : pwd)
-* 최초 1회 이후결제를 위해서는 [1. 최초결제 - 공통](#1-최초결제---공통)과 동일한 스크립트를 사용합니다.
-* 사용자는 기존에 등록한 계좌정보 확인 후 비밀번호 입력 단계로 진행합니다. 
-* 비밀번호를 입력하면 결제가 완료되며, 마지막 현금영수증 발행 화면으로 이동합니다. 
-![Alt text](/img/simple_01.png)
-![Alt text](/img/simple_02.png)
-![Alt text](/img/simple_03.png)
-
-<br><br><br>
-### 3. 이후결제 - 단건결제 
+### 2. 이후결제 - 일반결제 
 * 단건결제도 최초 1회 이후결제를 위해서는 [1. 최초결제 - 공통](#1-최초결제---공통)과 동일한 스크립트를 사용합니다. 
 * 사용자는 매번 결제정보를 입력해야하며, 최초결제 시 ARS 인증, 이후결제 시에는 SMS 인증으로 결제를 진행합니다. 
 
 <br><br><br>
-### 4. 이후결제 - 정기결제
+### 3. 이후결제 - 정기결제
 * 정기결제는 최초 1회 이후 결제 시 별도 UI가 필요없기 때문에 REST Request 방식으로 진행합니다.
 * Request 예시 
 ```html
@@ -256,6 +247,7 @@ Cache-Control: no-cache
 {
   "cst_id": "test",
   "custKey": "abcd1234567890",
+  /* 월 1회 정기결제 : PCD_REGULER_FLAG / 월 2회 이상 : PCD_SIMPLE_FLAG 이용  */
   "PCD_REGULER_FLAG": "Y"
 }
 
@@ -268,7 +260,7 @@ Cache-Control: no-cache
    "PCD_CST_ID": "test",
    "PCD_CUST_KEY": "abcd1234567890",
    "PCD_AUTH_KEY": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-   "PCD_PAY_TYPE": "transfer",							
+   "PCD_PAY_TYPE": "card",							
    "PCD_PAYER_NO": "2324",
    "PCD_PAYER_ID": "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
    "PCD_PAY_GOODS": "정기구독",
@@ -276,9 +268,6 @@ Cache-Control: no-cache
    "PCD_PAY_MONTH": "04",	
    "PCD_PAY_TOTAL": "1000",
    "PCD_PAY_OID": "test201804000001",
-   "PCD_TAXSAVE_FLAG": "Y",
-   "PCD_TAXSAVE_TRADE": "personal",
-   "PCD_TAXSAVE_IDNUM": "01022224444",
    "PCD_REGULER_FLAG": "Y",
    "PCD_PAYER_EMAIL": "test@test.com"
 }
@@ -297,228 +286,12 @@ PCD_PAY_YEAR | 과금연도 | O |
 PCD_PAY_MONTH | 과금월 | O | 
 PCD_PAY_TOTAL | 결제금액 | O | 
 PCD_PAY_OID | 주문번호 | O | 
-PCD_TAXSAVE_FLAG | 현금영수증 발행 여부 | O | Y=발행 / N=미발행
-PCD_TAXSAVE_TRADE | 현금영수증 발행 타입 | - | personal=소득공제 / company=지출증빙
-PCD_TAXSAVE_IDNUM | 현금영수증 발행 번호 | - | 휴대폰번호, 사업자번호
-PCD_REGULER_FLAG | 정기결제 여부 | O | 
+PCD_REGULER_FLAG | 정기결제 여부 | O | 월 2회 이상 결제 시 PCD_SIMPLE_FLAG 이용 
 PCD_PAYER_EMAIL | 결제고객 이메일 | O | 
 
 <br><br><br>
-### 5. 링크결제 - 링크생성 
-* 링크결제의 링크생성은 별도 UI 없이 REST Request 방식으로 진행됩니다. 
-* Request 예시 
-```html
-<!-- 가맹점 인증 -->
-POST /php/auth.php HTTP/1.1
-Host: testcpay.payple.kr
-Content-Type: application/json
-Cache-Control: no-cache
-{
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "PCD_PAY_WORK": "LINKREG"
-}
-
-<!-- 링크생성 요청  -->
-POST PCD_PAY_URL HTTP/1.1
-Host: PCD_PAY_HOST
-Content-Type: application/json
-Cache-Control: no-cache
-{
-  "PCD_CST_ID" : "test",
-  "PCD_CUST_KEY" : "abcd1234567890",
-  "PCD_AUTH_KEY" : "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "PCD_PAY_WORK" : "LINKREG",
-  "PCD_PAY_TYPE" : "transfer",
-  "PCD_PAY_GOODS" : "테스트상품",
-  "PCD_PAY_TOTAL" : 150000,
-  "PCD_REGULER_FLAG" : "Y",
-  "PCD_PAY_YEAR" : 2018,
-  "PCD_PAY_MONTH" : 11,
-  "PCD_TAXSAVE_FLAG" : "Y"
-}
-```
-
-* Request 파라미터 설명 
-
-파라미터 ID | 설명 | 필수 | 비고
-:----: | :----: | :----: | :----:
-PCD_CST_ID | 가맹점 ID | O | 
-PCD_CUST_KEY | 가맹점 식별을 위한 비밀키 | O | 
-PCD_AUTH_KEY | 결제요청을 위한 Transaction 키 | O | 
-PCD_PAY_WORK | 업무구분 | O | 링크결제 
-PCD_PAY_TYPE | 결제수단 | O | 계좌출금 
-PCD_PAY_GOODS | 상품명 | O | 
-PCD_PAY_TOTAL | 결제금액 | O | 
-PCD_REGULER_FLAG | 정기결제 여부 | - | Y=정기결제 / N=단건결제  
-PCD_PAY_YEAR | 정기결제 과금연도 | - | PCD_REGULER_FLAG : 'Y' 일때 필수
-PCD_PAY_MONTH | 정기결제 과금월 | - | PCD_REGULER_FLAG : 'Y' 일때 필수
-PCD_TAXSAVE_FLAG | 현금영수증 발행 여부 | O | Y=발행 / N=미발행
-
-* Response 예시 
-```html
-{
-  "PCD_LINK_RST" => "success|error",
-  "PCD_LINK_MSG" => "링크생성완료|실패..",
-  "PCD_PAY_TYPE" => "transfer",
-  "PCD_PAY_GOODS" => "테스트상품",
-  "PCD_PAY_TOTAL" => 150000,
-  "PCD_REGULER_FLAG" => "Y",
-  "PCD_PAY_YEAR" => 2018,
-  "PCD_PAY_MONTH" => 11,
-  "PCD_TAXSAVE_RST" => "Y"
-}
-```
-* Response 파라미터 설명
-
-파라미터 ID | 설명 | 예시
-:----: | :----: | :----: 
-PCD_LINK_RST | 링크생성 요청 결과 | success / error 
-PCD_LINK_MSG | 링크생성 요청 결과 메세지 | 링크생성완료 / 실패 
-PCD_PAY_TYPE | 결제수단 | 계좌출금 
-PCD_PAY_GOODS | 상품명 | 링크결제 상품  
-PCD_PAY_TOTAL | 결제금액 | 1000 
-PCD_REGULER_FLAG | 정기결제 여부 | Y / N
-PCD_PAY_YEAR | 과금연도<br>(정기결제) | 2018 
-PCD_PAY_MONTH | 과금월<br>(정기결제) | 08
-PCD_TAXSAVE_RST | 현금영수증 발행 결과 | Y / N
-
-<br><br><br>
-### 6. 현금영수증 - 발행
-* 현금영수증 발행 REST API 입니다.
-* Request 예시 
-```html
-<!-- 가맹점 인증 -->
-POST /php/auth.php HTTP/1.1
-Host: testcpay.payple.kr
-Content-Type: application/json
-Cache-Control: no-cache
-{
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "PCD_PAY_WORK": "TSREG"
-}
-
-<!-- 현금영수증 발행요청  -->
-POST PCD_PAY_URL HTTP/1.1
-Host: PCD_PAY_HOST
-Content-Type: application/json
-Cache-Control: no-cache
-{
-  "PCD_CST_ID" : "test",
-  "PCD_CUST_KEY" : "abcd1234567890",
-  "PCD_AUTH_KEY" : "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "PCD_PAYER_ID" : "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
-  "PCD_PAY_OID" : "test201804000001",
-  "PCD_REGULER_FLAG" : "Y",
-  "PCD_TAXSAVE_TRADEUSE" : "personal",
-  "PCD_TAXSAVE_IDENTINUM" : "01023456789",
-}
-```
-
-파라미터 ID | 설명 | 필수 | 비고
-:----: | :----: | :----: | :----:
-PCD_CST_ID | 가맹점 ID | O | 
-PCD_CUST_KEY | 가맹점 식별을 위한 비밀키 | O | 
-PCD_AUTH_KEY | 결제요청을 위한 Transaction 키 | O | 
-PCD_PAYER_ID | 결제 키 | O | 해당 키를 통해 결제요청
-PCD_PAY_OID | 주문번호 | O | 
-PCD_REGULER_FLAG | 정기결제 여부 | - | 
-PCD_TAXSAVE_TRADEUSE | 현금영수증 발행 구분 | - | personal=소득공제 / company=지출증빙<br>미입력시 결제내역 정보 이용 
-PCD_TAXSAVE_IDENTINUM | 현금영수증 발행대상 번호 | - | 휴대폰번호, 사업자번호<br>미입력시 결제내역 정보 이용 
-
-* Response 예시 
-```html
-{
-  "PCD_PAY_RST" => "success",
-  "PCD_PAY_MSG" => "현금영수증 발행 완료",
-  "PCD_PAYER_ID" => "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
-  "PCD_PAY_OID" => "test201804000001",
-  "PCD_REGULER_FLAG" => "Y",
-  "PCD_TAXSAVE_AMOUNT" => 15000,
-  "PCD_TAXSAVE_MGTNUM" => "test15424392310644"
-}
-```
-* Response 파라미터 설명
-
-파라미터 ID | 설명 | 예시
-:----: | :----: | :----: 
-PCD_PAY_RST | 현금영수증 발행 결과 | success / error 
-PCD_PAY_MSG | 현금영수증 발행 결과 메세지 | 현금영수증 발행 완료 / 실패
-PCD_PAYER_ID | 결제 키 | NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09
-PCD_PAY_OID | 주문번호 | test201804000001
-PCD_REGULER_FLAG | 정기결제 여부 | Y / N
-PCD_TAXSAVE_AMOUNT | 현금영수증 발행 금액 | 15000 
-PCD_TAXSAVE_MGTNUM | 국세청 발행 번호 | test15424392310644
-
-<br><br><br>
-### 7. 현금영수증 - 취소 
-* 현금영수증 취소 REST API 입니다.
-* Request 예시 
-```html
-<!-- 가맹점 인증 -->
-POST /php/auth.php HTTP/1.1
-Host: testcpay.payple.kr
-Content-Type: application/json
-Cache-Control: no-cache
-{
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "PCD_PAY_WORK": "TSCANCEL"
-}
-
-<!-- 현금영수증 취소요청  -->
-POST PCD_PAY_URL HTTP/1.1
-Host: PCD_PAY_HOST
-Content-Type: application/json
-Cache-Control: no-cache
-{
-  "PCD_CST_ID" : "test",
-  "PCD_CUST_KEY" : "abcd1234567890",
-  "PCD_AUTH_KEY" : "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "PCD_PAYER_ID" : "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
-  "PCD_PAY_OID" : "test201804000001",
-  "PCD_REGULER_FLAG" : "Y"
-}
-```
-
-파라미터 ID | 설명 | 필수 | 비고
-:----: | :----: | :----: | :----:
-PCD_CST_ID | 가맹점 ID | O | 
-PCD_CUST_KEY | 가맹점 식별을 위한 비밀키 | O | 
-PCD_AUTH_KEY | 결제요청을 위한 Transaction 키 | O | 
-PCD_PAYER_ID | 결제 키 | O | 해당 키를 통해 결제요청
-PCD_PAY_OID | 주문번호 | O | 
-PCD_REGULER_FLAG | 정기결제 여부 | - | 
-
-* Response 예시 
-```html
-{
-  "PCD_PAY_RST" => "success",
-  "PCD_PAY_MSG" => "현금영수증 발행취소 완료",
-  "PCD_PAYER_ID" => "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
-  "PCD_PAY_OID" => "test201804000001",
-  "PCD_REGULER_FLAG" => "Y",
-  "PCD_TAXSAVE_AMOUNT" => 15000,
-  "PCD_TAXSAVE_MGTNUM" => "test15424392310644"
-}
-```
-* Response 파라미터 설명
-
-파라미터 ID | 설명 | 예시
-:----: | :----: | :----: 
-PCD_PAY_RST | 현금영수증 발행 결과 | success / error 
-PCD_PAY_MSG | 현금영수증 발행 결과 메세지 | 현금영수증 발행취소 완료 / 실패
-PCD_PAYER_ID | 결제 키 | NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09
-PCD_PAY_OID | 주문번호 | test201804000001
-PCD_REGULER_FLAG | 정기결제 여부 | Y / N
-PCD_TAXSAVE_AMOUNT | 현금영수증 발행 금액 | 15000 
-PCD_TAXSAVE_MGTNUM | 국세청 발행 번호 | test15424392310644
-
-<br><br><br>
-### 8. 기 등록계좌 해지 
-* 결제 후 은행에 등록된 계좌를 해지하는 REST API 입니다.
-* 해지된 사용자가 다시 결제할 때는 ARS 인증을 진행하고 계좌를 재등록합니다. 
+### 4. 승인취소 
+* 결제 후 승인취소를 요청하는 REST API 입니다. 
 * Request 예시 
 ```html
 <!-- 가맹점 인증 -->
@@ -532,7 +305,7 @@ Cache-Control: no-cache
   "PCD_PAY_WORK": "PUSERDEL"
 }
 
-<!-- 계좌 해지요청  -->
+<!-- 승인취소 요청  -->
 POST PCD_PAY_URL HTTP/1.1
 Host: PCD_PAY_HOST
 Content-Type: application/json
@@ -580,7 +353,6 @@ PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | 2324
 ## 결제결과 수신  
 > 결제결과를 콜백 함수로 수신하는 경우에는 아래 절차가 필요없습니다. 
 * 콜백 함수를 이용하지 않는 경우에는 아래 소스코드를 가맹점 결제완료 페이지에 추가하고 가맹점 환경에 맞는 개발언어로 수정해주세요.
-* 자세한 내용은 [order_result.html 샘플](/sample/order_result.html)을 참고하시면 됩니다. 
 ```php
 <?
 $PCD_PAY_RST = (isset($_POST['PCD_PAY_RST'])) ? $_POST['PCD_PAY_RST'] : ""; 
@@ -599,7 +371,6 @@ $PCD_PAY_MONTH = (isset($_POST['PCD_PAY_MONTH'])) ? $_POST['PCD_PAY_MONTH'] : ""
 $PCD_PAY_GOODS = (isset($_POST['PCD_PAY_GOODS'])) ? $_POST['PCD_PAY_GOODS'] : "";
 $PCD_PAY_TOTAL = (isset($_POST['PCD_PAY_TOTAL'])) ? $_POST['PCD_PAY_TOTAL'] : "";
 $PCD_PAY_TIME = (isset($_POST['PCD_PAY_TIME'])) ? $_POST['PCD_PAY_TIME'] : "";         
-$PCD_TAXSAVE_RST = (isset($_POST['PCD_TAXSAVE_RST'])) ? $_POST['PCD_TAXSAVE_RST'] : "";   
 ?>
 ```
 
@@ -623,7 +394,6 @@ PCD_PAY_MONTH | 과금월<br>(정기결제) | 08
 PCD_PAY_GOODS | 상품명 | 정기구독 
 PCD_PAY_TOTAL | 결제금액 | 1000
 PCD_PAY_TIME | 결제완료 시간 | 20180110152911
-PCD_TAXSAVE_RST | 현금영수증 발행 결과 | Y / N 
 
 <br><br><br>
 ## 결제결과 조회  
@@ -709,29 +479,6 @@ PCD_PAY_BANKNUM | 결제 계좌번호 | 2881204040404
 PCD_PAY_TIME | 결제완료 시간 | 20180110152911
 PCD_TAXSAVE_RST | 현금영수증 발행 결과 | Y / N 
 PCD_REGULER_FLAG | 정기결제 여부 | Y / N
-
-<br><br><br>
-## 서비스가능 은행 및 점검시간 
-
-은행명 | 코드 | 평일, 토요일 | 공휴일
-:----: | :----: | :----: | :----:
-국민은행 | 004 | 23:30 ~ 00:30 | 23:30 ~ 00:30 
-농협 | 011 | 23:30 ~ 00:30 | 23:30 ~ 00:30 
-신한은행 | 088 | 23:30 ~ 00:30 | 23:30 ~ 00:30
-우리은행 | 020 | 23:30 ~ 00:30 | 23:30 ~ 00:30
-기업은행 | 003 | 23:30 ~ 00:30 | 23:30 ~ 00:30
-KEB하나은행 | 081 | 23:30 ~ 00:30 | 23:30 ~ 00:30
-우체국 | 071 | 23:30 ~ 00:30 | 23:30 ~ 00:30 
-새마을금고 | 045 | 23:30 ~ 00:30 | 23:30 ~ 00:30
-대구은행 | 031 | 23:30 ~ 00:30 | 23:30 ~ 00:30 
-광주은행 | 034 | 23:30 ~ 00:30 | 23:30 ~ 00:30 
-경남은행 | 039 | 23:30 ~ 06:00 | 23:30 ~ 06:00 
-산업은행 | 002 | 00:00 ~ 03:00 | 00:00 ~ 03:00 
-신협 | 048 | 22:00 ~ 08:00 | 22:00 ~ 08:00 
-수협 | 007 | 23:30 ~ 00:30 | 23:30 ~ 00:30
-부산은행 | 032 | 23:30 ~ 00:30 | 23:30 ~ 00:30
-
-> 우리은행 오픈되었습니다.('19년 04월)
 
 <br><br><br>
 ## 문의  
