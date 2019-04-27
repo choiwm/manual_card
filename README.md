@@ -13,10 +13,10 @@
 * 메세지 포맷 : JSON <br>
 <br><br><br>
 ## 가맹점 인증 
+* 가맹점 인증방식은 [계좌](../../../manual#가맹점-인증)와 동일합니다. 
 * Payple 서비스를 이용하기 위해서는 가맹점 계약을 통한 인증이 필요하지만 계약 전 **_테스트 계정을 통해 개발진행이 가능합니다._** 계약 완료 후 Payple 에서 가맹점에 아래의 키를 발급합니다. 
   * cst_id (가맹점 식별을 위한 가맹점 ID)
-  * custKey (API 통신전문 변조를 방지하기 위한 비밀키)
-* 가맹점 인증에 필요한 키의 외부 노출을 방지하기 위해 cgi 파일을 이용합니다. [cgi 파일](/sample/payple.cgi)을 내려받고 수정  가맹점의 서버에 저장해주세요. 
+  * custKey (API 통신전문 변조를 방지하기 위한 비밀키) 
 <br><br><br>
 #### 호출정보
 구분 | 테스트 | 운영
@@ -25,7 +25,6 @@ URL | https://testcpay.payple.kr/php/auth.php | https://cpay.payple.kr/php/auth.
 ID | cst_id : test | cst_id : 가맹점 운영 ID 
 KEY | custKey : abcd1234567890 | custKey : ID 매칭 Key
 비고 | - 테스트 승인이후 일괄 자동취소가 진행됩니다. | - 실제 승인이 진행됩니다.<br>**- AWS(아마존웹서비스)에서 AUTH0004 오류 발생 시 가맹점 서버도메인의 REFERER 추가가 필요할 수 있습니다.**<br>**- 카페24, 가비아 등 서버호스팅 이용 시 호스팅사에 페이플 URL(테스트, 운영) 방화벽 오픈을 요청하셔야 할 수 있습니다.**   
-* 호출을 위한 [각 언어별 샘플](/sample/language)을 확인해보세요. 
 <br><br><br>
 #### 호출예시 
 * 카드 일반결제 - Request 
@@ -40,11 +39,66 @@ Cache-Control: no-cache
 {
   "cst_id": "test",
   "custKey": "abcd1234567890",
-  "PCD_SIMPLE_FLAG": "Y"
+  "PCD_CARD_VER": "02"
 }
-
 ```
-* 계좌등록 간편결제 - Response
+* 카드 일반결제 - Response
+```html
+{
+  "result": "success",
+  "result_msg": "사용자 인증완료",
+  "cst_id": "test",
+  "custKey": "abcd1234567890",
+  "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
+  "return_url": "https://cpay.payple.kr/php/SimplePayAct.php?ACT_=PAYM",
+  "cPayHost": "https://cpay.payple.kr",
+  "cPayUrl": "/php/SimplePayAct.php?ACT_=PAYM"
+}
+```
+* 카드 정기결제 - Request 
+```html
+POST /php/auth.php HTTP/1.1
+Host: testcpay.payple.kr
+Content-Type: application/json
+<!-- AWS 이용 가맹점인 경우 REFERER 추가 -->
+Referer: http://가맹점 도메인 
+<!-- End : AWS 이용 가맹점인 경우 REFERER 추가 -->
+Cache-Control: no-cache
+{
+  "cst_id": "test",
+  "custKey": "abcd1234567890",
+  "PCD_CARD_VER": "01"
+}
+```
+* 카드 정기결제 - Response
+```html
+{
+  "result": "success",
+  "result_msg": "사용자 인증완료",
+  "cst_id": "test",
+  "custKey": "abcd1234567890",
+  "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
+  "return_url": "https://cpay.payple.kr/php/SimplePayAct.php?ACT_=PAYM",
+  "cPayHost": "https://cpay.payple.kr",
+  "cPayUrl": "/php/SimplePayAct.php?ACT_=PAYM"
+}
+```
+* 카드 승인취소 - Request 
+```html
+POST /php/auth.php HTTP/1.1
+Host: testcpay.payple.kr
+Content-Type: application/json
+<!-- AWS 이용 가맹점인 경우 REFERER 추가 -->
+Referer: http://가맹점 도메인 
+<!-- End : AWS 이용 가맹점인 경우 REFERER 추가 -->
+Cache-Control: no-cache
+{
+  "cst_id": "test",
+  "custKey": "abcd1234567890",
+  "PCD_CARD_VER": "01"
+}
+```
+* 카드 승인취소 - Response
 ```html
 {
   "result": "success",
@@ -60,10 +114,13 @@ Cache-Control: no-cache
 <br><br><br>
 ## 결제요청 
 ### 1. 최초결제 - 공통  
-* 페이플은 자바스크립트만을 이용해 모든 결제절차를 진행합니다. <br><br> 
-![Alt text](/img/onetime_01.png) <br><br>
-* 간편결제, 정기결제에서 최초결제없이 **계좌등록만 하기 위해서는 obj.PCD_PAY_WORK = 'AUTH'** 로 세팅하시면 됩니다.<br><br>
-![Alt text](/img/auth.png) <br><br>
+* 페이플은 자바스크립트만을 이용해 모든 결제절차를 진행합니다. <br><br>
+* 앱카드 사용자를 위한 **일반결제** 화면입니다.<br><br>
+![Alt text](/img/card_genaral.png) <br><br>
+* **정기결제** 화면입니다. 카드번호, 유효기간, 생년월일, 비밀번호 입력이 필요합니다.<br><br>
+![Alt text](/img/card_bill.png) <br><br>
+* 정기결제에서 최초결제없이 **카드등록만 하기 위해서는 obj.PCD_PAY_WORK = 'AUTH'** 로 세팅하시면 됩니다.<br><br>
+![Alt text](/img/card_reg.png) <br><br>
 * 아래 소스코드를 가맹점 주문페이지에 추가합니다.
 * 자세한 내용은 [order_confirm.html 샘플](/sample/order_confirm.html)을 참고하시면 됩니다. 
 ```html
