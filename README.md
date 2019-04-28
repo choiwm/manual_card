@@ -248,7 +248,8 @@ Cache-Control: no-cache
   "cst_id": "test",
   "custKey": "abcd1234567890",
   /* 월 1회 정기결제 : PCD_REGULER_FLAG / 월 2회 이상 : PCD_SIMPLE_FLAG 이용  */
-  "PCD_REGULER_FLAG": "Y"
+  "PCD_REGULER_FLAG": "Y",
+  "PCD_PAY_TYPE": "card"
 }
 
 <!-- 결제요청  -->
@@ -282,12 +283,54 @@ PCD_PAY_TYPE | 결제수단 | O |
 PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | O | 
 PCD_PAYER_ID | 결제 키 | O | 해당 키를 통해 결제요청
 PCD_PAY_GOODS | 상품명 | O | 
-PCD_PAY_YEAR | 과금연도 | O | 
-PCD_PAY_MONTH | 과금월 | O | 
+PCD_PAY_YEAR | 과금연도 | O | PCD_REGULER_FLAG 시 필수  
+PCD_PAY_MONTH | 과금월 | O | PCD_REGULER_FLAG 시 필수
 PCD_PAY_TOTAL | 결제금액 | O | 
 PCD_PAY_OID | 주문번호 | O | 
 PCD_REGULER_FLAG | 정기결제 여부 | O | 월 2회 이상 결제 시 PCD_SIMPLE_FLAG 이용 
 PCD_PAYER_EMAIL | 결제고객 이메일 | O | 
+
+* Response 예시 
+```html
+{
+  "PCD_PAY_RST" => "success",
+  "PCD_PAY_MSG" => "완료",
+  "PCD_PAY_OID" => "test201804000001",	
+  "PCD_PAY_TYPE" => "card",
+  "PCD_PAYER_NO" => "2324",
+  "PCD_PAYER_ID" => "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
+  "PCD_PAY_YEAR" => "2018",
+  "PCD_PAY_MONTH" => "04",
+  "PCD_PAY_GOODS" => "정기구독",
+  "PCD_PAY_TOTAL" => "1000",
+  "PCD_PAY_TIME" => "20180423130201",
+  "PCD_PAY_CARDNANE" => "BC 카드",
+  "PCD_PAY_CARDNUM" => "12345678****1234",
+  "PCD_PAY_CARDTRADENUM" => "201904141320332692022400",
+  "PCD_REGULER_FLAG" => "Y",
+  "PCD_PAYER_EMAIL" => "test@test.com"
+}
+```
+* Response 파라미터 설명
+
+파라미터 ID | 설명 | 예시
+:----: | :----: | :----: 
+PCD_PAY_RST | 계좌해지 요청 결과 | success / error 
+PCD_PAY_MSG | 계좌해지 요청 결과 메세지 | 완료 / 실패
+PCD_PAY_OID | 주문번호 | test201804000001
+PCD_PAY_TYPE | 결제수단 | card 
+PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | 2324
+PCD_PAYER_ID | 결제 키 | NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09
+PCD_PAY_YEAR | 과금연도 | 2018 
+PCD_PAY_MONTH | 과금월 | 04
+PCD_PAY_GOODS | 상품명 | 정기구독
+PCD_PAY_TOTAL | 결제금액 | 1000
+PCD_PAY_TIME | 결제완료 시간 | 20180110152911
+PCD_PAY_CARDNANE | 카드사명 | BC카드
+PCD_PAY_CARDNUM | 카드번호 | 
+PCD_PAY_CARDTRADENUM | 카드승인 거래번호 | 201904141320332692022400
+PCD_REGULER_FLAG | 정기결제 여부 | Y / N
+PCD_PAYER_EMAIL | 결제고객 이메일 | test@test.com
 
 <br><br><br>
 ### 4. 승인취소 
@@ -419,7 +462,7 @@ Cache-Control: no-cache
    "PCD_CUST_KEY": "abcd1234567890",
    "PCD_AUTH_KEY": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
    "PCD_PAYCHK_FLAG": "Y",
-   "PCD_PAY_TYPE": "transfer",
+   "PCD_PAY_TYPE": "card",
    "PCD_REGULER_FLAG": "Y",							
    "PCD_PAY_YEAR": "2018",	
    "PCD_PAY_MONTH": "04",	
