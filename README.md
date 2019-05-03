@@ -187,7 +187,7 @@ $(document).ready( function () {
 :----: | :----: | :----: | ----
 PCD_CPAY_VER | 결제창 버전 | O | 최신 : 1.0.1 
 PCD_PAY_TYPE | 결제수단 | O | 
-PCD_PAY_WORK | 결제요청 방식 | O | - AUTH : 계좌등록만 진행<br>- CERT : 가맹점 최종승인 후 계좌등록+결제 진행<br>- PAY : 가맹점 최종승인없이 계좌등록+결제 진행 
+PCD_PAY_WORK | 결제요청 방식 | O | - AUTH : 카드등록만 진행(정기결제만 해당)<br>- CERT : 가맹점 최종승인 후 결제 진행<br>- PAY : 가맹점 최종승인없이 결제 진행 
 PCD_CARD_VER | 일반/정기결제 | O | - 01 : 정기<br>- 02 : 일반 
 PCD_RST_URL | 결제(요청)결과 RETURN URL | O | - 결제결과를 콜백 함수가 아닌 URL로 수신할 경우만 해당<br>- 모바일에서 팝업방식은 상대경로, 다이렉트 방식은 절대경로로 설정  
 PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | O | maxlength=10
@@ -317,8 +317,8 @@ PCD_PAYER_EMAIL | 결제고객 이메일 | - |
 
 파라미터 ID | 설명 | 예시
 :----: | :----: | :----: 
-PCD_PAY_RST | 계좌해지 요청 결과 | success / error 
-PCD_PAY_MSG | 계좌해지 요청 결과 메세지 | 완료 / 실패
+PCD_PAY_RST | 요청 결과 | success / error 
+PCD_PAY_MSG | 요청 결과 메세지 | 완료 / 실패
 PCD_PAY_OID | 주문번호 | test201804000001
 PCD_PAY_TYPE | 결제수단 | card 
 PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | 2324
