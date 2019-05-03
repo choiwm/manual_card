@@ -140,7 +140,7 @@ $(document).ready( function () {
         var buyer_no = "2335";
         var buyer_name = "홍길동";
         var buyer_hp = "01012345678";
-        var buyer_email = "test@payple.kr";
+        var buyer_email = "dev@payple.kr";
         var buy_goods = "휴대폰";
         var buy_total = "1000";
         var order_num = "test0553941001540967923";
@@ -272,7 +272,7 @@ Cache-Control: no-cache
    "PCD_PAY_TOTAL": "1000",
    "PCD_PAY_OID": "test201804000001",
    "PCD_REGULER_FLAG": "Y",
-   "PCD_PAYER_EMAIL": "test@test.com"
+   "PCD_PAYER_EMAIL": "dev@payple.kr"
 }
 ```
 
@@ -310,7 +310,7 @@ PCD_PAYER_EMAIL | 결제고객 이메일 | - |
   "PCD_PAY_CARDNUM" => "12345678****1234",
   "PCD_PAY_CARDTRADENUM" => "201904141320332692022400",
   "PCD_REGULER_FLAG" => "Y",
-  "PCD_PAYER_EMAIL" => "test@test.com"
+  "PCD_PAYER_EMAIL" => "dev@payple.kr"
 }
 ```
 * Response 파라미터 설명
@@ -332,7 +332,7 @@ PCD_PAY_CARDNANE | 카드사명 | BC카드
 PCD_PAY_CARDNUM | 카드번호 | 
 PCD_PAY_CARDTRADENUM | 카드승인 거래번호 | 201904141320332692022400
 PCD_REGULER_FLAG | 정기결제 여부 | Y / N
-PCD_PAYER_EMAIL | 결제고객 이메일 | test@test.com
+PCD_PAYER_EMAIL | 결제고객 이메일 | dev@payple.kr
 
 <br><br><br>
 ### 4. 승인취소 
@@ -591,7 +591,7 @@ PCD_PAY_DATE | 결제요청일자(YYYYMMDD) | O |
    "PCD_PAY_TOTAL" => "1000",
    "PCD_PAY_TIME" => "20180423130201",
    "PCD_REGULER_FLAG" => "Y",
-   "PCD_PAYER_EMAIL" => "test@test.com",
+   "PCD_PAYER_EMAIL" => "dev@payple.kr",
    "PCD_CARDNUM" => "12345678 ** ** 1234",
    "PCD_CARDNAME" => "BC카드",
    "PCD_CARDTRADENUM" => "201904141320332692022400"
@@ -613,7 +613,7 @@ PCD_PAY_GOODS | 상품명 | 정기구독
 PCD_PAY_TOTAL | 결제금액 | 1000
 PCD_PAY_TIME | 결제완료 시간 | 20180110152911
 PCD_REGULER_FLAG | 정기결제 여부 | Y / N
-PCD_PAYER_EMAIL | 결제고객 이메일 | test@test.com
+PCD_PAYER_EMAIL | 결제고객 이메일 | dev@payple.kr
 PCD_CARDNUM | 카드번호 | 12345678 ** ** 1234
 PCD_CARDNAME | 카드사명 | BC카드
 PCD_CARDTRADENUM | 거래번호 | 201904141320332692022400
