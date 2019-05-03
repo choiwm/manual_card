@@ -290,7 +290,7 @@ PCD_PAY_MONTH | 과금월 | O | PCD_REGULER_FLAG 시 필수
 PCD_PAY_TOTAL | 결제금액 | O | 
 PCD_PAY_OID | 주문번호 | O | 
 PCD_REGULER_FLAG | 정기결제 여부 | O | 월 2회 이상 결제 시 PCD_SIMPLE_FLAG 이용 
-PCD_PAYER_EMAIL | 결제고객 이메일 | O | 
+PCD_PAYER_EMAIL | 결제고객 이메일 | - | 
 
 * Response 예시 
 ```html
