@@ -28,7 +28,7 @@ KEY | custKey : abcd1234567890 | custKey : ID 매칭 Key
 
 <br><br><br>
 #### 호출예시 
-* Request 
+* 승인 - Request 
 ```html
 POST /php/auth.php HTTP/1.1
 Host: testcpay.payple.kr
@@ -42,7 +42,7 @@ Cache-Control: no-cache
   "custKey": "abcd1234567890"
 }
 ```
-* Response
+* 승인 - Response
 ```html
 {
   "result": "success",
@@ -56,7 +56,7 @@ Cache-Control: no-cache
 }
 ```
 
-* 카드 승인취소 - Request 
+* 승인취소 - Request 
 ```html
 POST /php/auth.php HTTP/1.1
 Host: testcpay.payple.kr
@@ -71,7 +71,7 @@ Cache-Control: no-cache
   "PCD_PAYCANCEL_FLAG": "Y"
 }
 ```
-* 카드 승인취소 - Response
+* 승인취소 - Response
 ```html
 {
   "result": "success",
