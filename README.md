@@ -28,7 +28,7 @@ KEY | custKey : abcd1234567890 | custKey : ID 매칭 Key
 
 <br><br><br>
 #### 호출예시 
-* 카드 일반결제 - Request 
+* Request 
 ```html
 POST /php/auth.php HTTP/1.1
 Host: testcpay.payple.kr
@@ -39,51 +39,23 @@ Referer: http://가맹점 도메인
 Cache-Control: no-cache
 {
   "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "PCD_CARD_VER": "02"
+  "custKey": "abcd1234567890"
 }
 ```
-* 카드 일반결제 - Response
+* Response
 ```html
 {
   "result": "success",
   "result_msg": "사용자 인증완료",
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
+  "cst_id": "UFVNNVZpZk4reWo5UFRualUwcGV4dz09",
+  "custKey": "T3JzRkp5L1FTcEFDa1FQdHo5Um1UZz09",
   "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "return_url": "https://cpay.payple.kr/php/SimplePayAct.php?ACT_=PAYM",
+  "return_url": "https://cpay.payple.kr/index.php?ACT_=PAYM",
   "cPayHost": "https://cpay.payple.kr",
-  "cPayUrl": "/php/SimplePayAct.php?ACT_=PAYM"
+  "cPayUrl": "/index.php?ACT_=PAYM"
 }
 ```
-* 카드 정기결제 - Request 
-```html
-POST /php/auth.php HTTP/1.1
-Host: testcpay.payple.kr
-Content-Type: application/json
-<!-- AWS 이용 가맹점인 경우 REFERER 추가 -->
-Referer: http://가맹점 도메인 
-<!-- End : AWS 이용 가맹점인 경우 REFERER 추가 -->
-Cache-Control: no-cache
-{
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "PCD_CARD_VER": "01"
-}
-```
-* 카드 정기결제 - Response
-```html
-{
-  "result": "success",
-  "result_msg": "사용자 인증완료",
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
-  "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "return_url": "https://cpay.payple.kr/php/SimplePayAct.php?ACT_=PAYM",
-  "cPayHost": "https://cpay.payple.kr",
-  "cPayUrl": "/php/SimplePayAct.php?ACT_=PAYM"
-}
-```
+
 * 카드 승인취소 - Request 
 ```html
 POST /php/auth.php HTTP/1.1
@@ -96,7 +68,7 @@ Cache-Control: no-cache
 {
   "cst_id": "test",
   "custKey": "abcd1234567890",
-  "PCD_CARD_VER": "01"
+  "PCD_PAYCANCEL_FLAG": "Y"
 }
 ```
 * 카드 승인취소 - Response
@@ -104,14 +76,44 @@ Cache-Control: no-cache
 {
   "result": "success",
   "result_msg": "사용자 인증완료",
-  "cst_id": "test",
-  "custKey": "abcd1234567890",
+  "cst_id": "UFVNNVZpZk4reWo5UFRualUwcGV4dz09",
+  "custKey": "T3JzRkp5L1FTcEFDa1FQdHo5Um1UZz09",
   "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "return_url": "https://cpay.payple.kr/php/SimplePayAct.php?ACT_=PAYM",
-  "cPayHost": "https://cpay.payple.kr",
-  "cPayUrl": "/php/SimplePayAct.php?ACT_=PAYM"
+  "PCD_PAY_HOST": "https://testcpay.payple.kr",	  // payple Server Host
+  "PCD_PAY_URL": "/php/account/api/cPayCAct.php", // payple Server url
+  "return_url": "https://testcpay.payple.kr/php/account/api/cPayCAct.php"  // return_url 은 변경되어 수신될 수 있습니다. URL을 고정하지 마세요.
 }
 ```
+
+* 등록카드 해지(정기결제) - Request 
+```html
+POST /php/auth.php HTTP/1.1
+Host: testcpay.payple.kr
+Content-Type: application/json
+<!-- AWS 이용 가맹점인 경우 REFERER 추가 -->
+Referer: http://가맹점 도메인 
+<!-- End : AWS 이용 가맹점인 경우 REFERER 추가 -->
+Cache-Control: no-cache
+{
+  "cst_id": "test",
+  "custKey": "abcd1234567890",
+  "PCD_PAY_WORK": "PUSERDEL"
+}
+```
+* 등록카드 해지(정기결제) - Response
+```html
+{
+  "result": "success",
+  "result_msg": "사용자 인증완료",
+  "cst_id": "UFVNNVZpZk4reWo5UFRualUwcGV4dz09",
+  "custKey": "T3JzRkp5L1FTcEFDa1FQdHo5Um1UZz09",
+  "AuthKey": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
+  "PCD_PAY_HOST": "https://testcpay.payple.kr",	  // payple Server Host
+  "PCD_PAY_URL": "/php/cPayUser/api/cPayUserAct.php?ACT_=PUSERDEL", // payple Server url
+  "return_url": "https://testcpay.payple.kr/php/cPayUser/api/cPayUserAct.php?ACT_=PUSERDEL"  // return_url 은 변경되어 수신될 수 있습니다. URL을 고정하지 마세요.
+}
+```
+
 <br><br><br>
 ## 결제요청 
 ### 1. 최초결제 - 공통  
@@ -133,7 +135,7 @@ Cache-Control: no-cache
 $(document).ready( function () {        
     $('#payAction').on('click', function (event) {
         
-        var pay_work = "PAY";
+        var pay_work = "CERT";
         var payple_payer_id = "d0toSS9sT084bVJSNThScnFXQm9Gdz09";     
         var buyer_no = "2335";
         var buyer_name = "홍길동";
@@ -223,7 +225,7 @@ PCD_CST_ID | 가맹점 ID | O |
 PCD_CUST_KEY | 가맹점 식별을 위한 비밀키 | O | 
 PCD_AUTH_KEY | 결제요청을 위한 Transaction 키 | O | 
 PCD_PAY_REQKEY | 최종 승인요청용 키 | O | 
-PCD_PAYER_ID | 결제고객 고유 ID | O | 
+PCD_PAYER_ID | 결제고객 고유 ID | - | 정기결제(PCD_CARD_VER=01) 시 필수 
 
 <br><br>
 #### 1-2. 즉시 승인(PCD_PAY_WORK : PAY) 
@@ -253,7 +255,7 @@ Cache-Control: no-cache
 }
 
 <!-- 결제요청  -->
-POST /php/RePayAct.php?ACT_=PAYM HTTTP/1.1
+POST /php/RePayCardAct.php?ACT_=PAYM HTTTP/1.1
 Host: testcpay.payple.kr
 Content-Type: application/json
 Cache-Control: no-cache
@@ -345,19 +347,102 @@ Cache-Control: no-cache
 {
   "cst_id": "test",
   "custKey": "abcd1234567890",
-  "PCD_PAY_WORK": "PUSERDEL"
+  "PCD_PAY_WORK": "PCD_PAYCANCEL_FLAG": "Y"
 }
 
 <!-- 승인취소 요청  -->
-POST PCD_PAY_URL HTTP/1.1
-Host: PCD_PAY_HOST
+POST /php/PayChkAct.php HTTTP/1.1
+Host: testcpay.payple.kr
 Content-Type: application/json
 Cache-Control: no-cache
 {
   "PCD_CST_ID" : "test",
   "PCD_CUST_KEY" : "abcd1234567890",
   "PCD_AUTH_KEY" : "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-  "PCD_PAYER_ID" : "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",					
+  "PCD_REFUND_KEY" : "a41ce010ede9fcbfb3be86b24858806596a9db68b79d138b147c3e563e1829a0",
+  "PCD_PAYCANCEL_FLAG": "Y",
+  "PCD_PAY_OID": "test201804000001",
+  "PCD_PAY_TYPE": "card",
+  "PCD_REGULER_FLAG": "Y",
+  "PCD_PAY_YEAR": "2019",
+  "PCD_PAY_MONTH": "05",
+  "PCD_PAY_DATE": "20180502",
+  "PCD_REFUND_TOTAL": "1000"
+}
+```
+
+파라미터 ID | 설명 | 필수 | 비고
+:----: | :----: | :----: | :----:
+PCD_CST_ID | 가맹점 ID | O | 
+PCD_CUST_KEY | 가맹점 식별을 위한 비밀키 | O | 
+PCD_AUTH_KEY | 결제요청을 위한 Transaction 키 | O | 
+PCD_REFUND_KEY | 취소용 키 | O | 관리자화면에서 확인 가능 
+PCD_PAYCANCEL_FLAG | 취소요청 여부 | O | 
+PCD_PAY_OID | 주문번호 | O | 
+PCD_PAY_TYPE | 결제수단 | O | 
+PCD_REGULER_FLAG | 정기결제 여부 | - | 
+PCD_PAY_YEAR | 정기결제 구분 연도 | - | 
+PCD_PAY_MONTH | 정기결제 구분 월 | - | 
+PCD_PAY_DATE | 결제일자 | O | YYYYMMDD 
+PCD_REFUND_TOTAL | 취소금액 | O | 원거래금액 미만 취소 시 부분취소 적용 
+
+* Response 예시 
+```html
+{
+  "PCD_PAY_RST" => "success",
+  "PCD_PAY_MSG" => "취소완료",
+  "PCD_PAY_OID" => "test201804000001",
+  "PCD_PAY_TYPE" => "card",
+  "PCD_PAYER_ID" => "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
+  "PCD_PAYER_NO" => "2324",
+  "PCD_REGULER_FLAG" => "Y",
+  "PCD_PAY_YEAR" => "2019",
+  "PCD_PAY_MONTH" => "05",
+  "PCD_PAY_GOODS" => "간편구독",
+  "PCD_REFUND_TOTAL" => "1000"
+}
+```
+* Response 파라미터 설명
+
+파라미터 ID | 설명 | 예시
+:----: | :----: | :----: 
+PCD_PAY_RST | 승인취소 요청 결과 | success / error 
+PCD_PAY_MSG | 승인취소 요청 결과 메세지 | 취소완료 / 실패
+PCD_PAY_TYPE | 결제수단 | card 
+PCD_PAYER_ID | 결제 키 | NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09
+PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | 2324
+PCD_REGULER_FLAG | 정기결제 여부 | Y / N
+PCD_PAY_YEAR | 정기결제 과금 연도 | 2019
+PCD_PAY_MONTH | 정기결제 과금 월 | 05
+PCD_PAY_GOODS | 결제 상품명 | 간편구독
+PCD_REFUND_TOTAL | 취소금액 | 1000
+
+<br><br><br>
+### 5. 등록카드 해지(정기결제) 
+* 정기결제 시 최초 등록된 카드정보를 해지하는 REST API 입니다.
+* Request 예시 
+```html
+<!-- 가맹점 인증 -->
+POST /php/auth.php HTTP/1.1
+Host: testcpay.payple.kr
+Content-Type: application/json
+Cache-Control: no-cache
+{
+  "cst_id": "test",
+  "custKey": "abcd1234567890",
+  "PCD_PAY_WORK": "PUSERDEL"
+}
+
+<!-- 해지 요청  -->
+POST /php/cPayUser/api/cPayUserAct.php?ACT_=PUSERDEL HTTP/1.1
+Host: testcpay.payple.kr
+Content-Type: application/json
+Cache-Control: no-cache
+{
+  "PCD_CST_ID" : "test",
+  "PCD_CUST_KEY" : "abcd1234567890",
+  "PCD_AUTH_KEY" : "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
+  "PCD_PAYER_ID" : "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
   "PCD_PAYER_NO" : "2324"
 }
 ```
@@ -367,15 +452,15 @@ Cache-Control: no-cache
 PCD_CST_ID | 가맹점 ID | O | 
 PCD_CUST_KEY | 가맹점 식별을 위한 비밀키 | O | 
 PCD_AUTH_KEY | 결제요청을 위한 Transaction 키 | O | 
-PCD_PAYER_ID | 결제 키 | O | 해당 키를 통해 결제요청
+PCD_PAYER_ID | 결제 키 | O | 
 PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | - | 
 
 * Response 예시 
 ```html
 {
   "PCD_PAY_RST" => "success",
-  "PCD_PAY_MSG" => "계좌해지완료",
-  "PCD_PAY_TYPE" => "transfer",
+  "PCD_PAY_MSG" => "해지완료",
+  "PCD_PAY_TYPE" => "card",
   "PCD_PAY_WORK" => "PUSERDEL",
   "PCD_PAYER_ID" => "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
   "PCD_PAYER_NO" => "2324"
@@ -385,10 +470,10 @@ PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | - |
 
 파라미터 ID | 설명 | 예시
 :----: | :----: | :----: 
-PCD_PAY_RST | 계좌해지 요청 결과 | success / error 
-PCD_PAY_MSG | 계좌해지 요청 결과 메세지 | 계좌해지완료 / 실패
-PCD_PAY_TYPE | 결제수단 | transfer 
-PCD_PAY_WORK | 업무구분 | PUSERDEL (계좌해지) 
+PCD_PAY_RST | 해지요청 결과 | success / error 
+PCD_PAY_MSG | 해지요청 결과 메세지 | 완료 / 실패
+PCD_PAY_TYPE | 결제수단 | card 
+PCD_PAY_WORK | 업무구분 | PUSERDEL (해지)
 PCD_PAYER_ID | 결제 키 | NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09
 PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | 2324
 
@@ -413,7 +498,10 @@ $PCD_PAY_YEAR = (isset($_POST['PCD_PAY_YEAR'])) ? $_POST['PCD_PAY_YEAR'] : "";
 $PCD_PAY_MONTH = (isset($_POST['PCD_PAY_MONTH'])) ? $_POST['PCD_PAY_MONTH'] : "";
 $PCD_PAY_GOODS = (isset($_POST['PCD_PAY_GOODS'])) ? $_POST['PCD_PAY_GOODS'] : "";
 $PCD_PAY_TOTAL = (isset($_POST['PCD_PAY_TOTAL'])) ? $_POST['PCD_PAY_TOTAL'] : "";
-$PCD_PAY_TIME = (isset($_POST['PCD_PAY_TIME'])) ? $_POST['PCD_PAY_TIME'] : "";         
+$PCD_PAY_TIME = (isset($_POST['PCD_PAY_TIME'])) ? $_POST['PCD_PAY_TIME'] : ""; 
+$PCD_CARDNUM = (isset($_POST['PCD_CARDNUM'])) ? $_POST['PCD_CARDNUM'] : "";
+$PCD_CARDNAME = (isset($_POST['PCD_CARDNAME'])) ? $_POST['PCD_CARDNAME'] : "";
+$PCD_CARDTRADENUM = (isset($_POST['PCD_CARDTRADENUM'])) ? $_POST['PCD_CARDTRADENUM'] : "";
 ?>
 ```
 
@@ -437,6 +525,9 @@ PCD_PAY_MONTH | 과금월<br>(정기결제) | 08
 PCD_PAY_GOODS | 상품명 | 정기구독 
 PCD_PAY_TOTAL | 결제금액 | 1000
 PCD_PAY_TIME | 결제완료 시간 | 20180110152911
+PCD_CARDNUM | 카드번호 | 12345678 ** ** 1234
+PCD_CARDNAME | 카드사명 | BC카드
+PCD_CARDTRADENUM | 거래번호 | 201904141320332692022400
 
 <br><br><br>
 ## 결제결과 조회  
@@ -467,7 +558,7 @@ Cache-Control: no-cache
    "PCD_PAY_YEAR": "2018",	
    "PCD_PAY_MONTH": "04",	
    "PCD_PAY_OID": "test201804000001",
-   "PCD_PAY_DATE": 20180502
+   "PCD_PAY_DATE": "20180502"
 }
 ```
 * Request 파라미터 설명 
@@ -488,19 +579,22 @@ PCD_PAY_DATE | 결제요청일자(YYYYMMDD) | O |
 * Response 예시 
 ```html
 {
-   "PCD_PAY_RST": "success",
-   "PCD_PAY_MSG": "출금이체완료",
-   "PCD_PAY_OID": "test201804000001",
-   "PCD_PAY_TYPE": "transfer",
-   "PCD_PAYER_NO": "1234",
+   "PCD_PAY_RST" => "success",
+   "PCD_PAY_MSG" => "조회완료",
+   "PCD_PAY_OID" => "test201804000001",
+   "PCD_PAY_TYPE" => "card",
+   "PCD_PAYER_NO" => "1234",
    "PCD_PAYER_ID" => "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
    "PCD_PAY_YEAR" => "2018",
    "PCD_PAY_MONTH" => "05",
-   "PCD_PAY_GOODS": "간편상품",
-   "PCD_PAY_TOTAL": "1000",
+   "PCD_PAY_GOODS" => "간편상품",
+   "PCD_PAY_TOTAL" => "1000",
    "PCD_PAY_TIME" => "20180423130201",
-   "PCD_TAXSAVE_RST": "Y",
-   "PCD_REGULER_FLAG": "Y"
+   "PCD_REGULER_FLAG" => "Y",
+   "PCD_PAYER_EMAIL" => "test@test.com",
+   "PCD_CARDNUM" => "12345678 ** ** 1234",
+   "PCD_CARDNAME" => "BC카드",
+   "PCD_CARDTRADENUM" => "201904141320332692022400"
 }
 ```
 * Response 파라미터 설명 
@@ -517,11 +611,12 @@ PCD_PAY_YEAR | 과금연도<br>(정기결제) | 2018
 PCD_PAY_MONTH | 과금월<br>(정기결제) | 08
 PCD_PAY_GOODS | 상품명 | 정기구독 
 PCD_PAY_TOTAL | 결제금액 | 1000
-PCD_PAY_BANK | 결제 은행코드 | 081
-PCD_PAY_BANKNUM | 결제 계좌번호 | 2881204040404
 PCD_PAY_TIME | 결제완료 시간 | 20180110152911
-PCD_TAXSAVE_RST | 현금영수증 발행 결과 | Y / N 
 PCD_REGULER_FLAG | 정기결제 여부 | Y / N
+PCD_PAYER_EMAIL | 결제고객 이메일 | test@test.com
+PCD_CARDNUM | 카드번호 | 12345678 ** ** 1234
+PCD_CARDNAME | 카드사명 | BC카드
+PCD_CARDTRADENUM | 거래번호 | 201904141320332692022400
 
 <br><br><br>
 ## 문의  
