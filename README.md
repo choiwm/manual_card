@@ -205,7 +205,7 @@ PCD_PAY_MONTH | 정기결제 적용월 | - | PCD_REGULER_FLAG : 'Y' 일때 필�
 * Request 예시 
 ```html
 <!-- 결제 승인요청 --> 
-POST /php/PayConfirmAct.php?ACT_=PAYM HTTTP/1.1
+POST /php/PayCardConfirmAct.php?ACT_=PAYM HTTTP/1.1
 Host: testcpay.payple.kr
 Content-Type: application/json
 Cache-Control: no-cache
