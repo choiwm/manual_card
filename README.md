@@ -167,6 +167,8 @@ $(document).ready( function () {
 	/* End : 결과를 콜백 함수가 아닌 URL로 받고자 하는 경우 */
 	 
         obj.PCD_PAYER_NO = buyer_no;  
+	obj.PCD_PAYER_NAME = buyer_name;
+        obj.PCD_PAYER_HP = buyer_hp;
         obj.PCD_PAYER_EMAIL = buyer_email;
         obj.PCD_PAY_GOODS = buy_goods;
         obj.PCD_PAY_TOTAL = buy_total;
@@ -191,6 +193,8 @@ PCD_PAY_WORK | 결제요청 방식 | O | - AUTH : 카드등록만 진행(정기�
 PCD_CARD_VER | 일반/정기결제 | O | - 01 : 정기<br>- 02 : 일반 
 PCD_RST_URL | 결제(요청)결과 RETURN URL | O | - 결제결과를 콜백 함수가 아닌 URL로 수신할 경우만 해당<br>- 모바일에서 팝업방식은 상대경로, 다이렉트 방식은 절대경로로 설정  
 PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | O | maxlength=10
+PCD_PAYER_NAME | 결제고객 이름 | - | 
+PCD_PAYER_HP | 결제고객 휴대폰번호 | - | 결제고객에게 결제내용에 대한 알림톡이 발송됩니다.
 PCD_PAYER_EMAIL | 결제고객 이메일 | - | 
 PCD_PAY_GOODS | 상품명 | O | 
 PCD_PAY_TOTAL | 결제금액 | O | 
@@ -272,7 +276,8 @@ Cache-Control: no-cache
    "PCD_PAY_TOTAL": "1000",
    "PCD_PAY_OID": "test201804000001",
    "PCD_REGULER_FLAG": "Y",
-   "PCD_PAYER_EMAIL": "dev@payple.kr"
+   "PCD_PAYER_EMAIL": "dev@payple.kr",
+   "PCD_PAYER_HP" : "01023456789"
 }
 ```
 
@@ -291,6 +296,7 @@ PCD_PAY_TOTAL | 결제금액 | O |
 PCD_PAY_OID | 주문번호 | O | 
 PCD_REGULER_FLAG | 정기결제 여부 | O | 월 2회 이상 결제 시 PCD_SIMPLE_FLAG 이용 
 PCD_PAYER_EMAIL | 결제고객 이메일 | - | 
+PCD_PAYER_HP | 결제고객 휴대폰번호 | - | 결제고객에게 결제내용에 대한 알림톡이 발송됩니다.
 
 * Response 예시 
 ```html
