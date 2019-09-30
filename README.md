@@ -39,7 +39,8 @@ Referer: http://가맹점 도메인
 Cache-Control: no-cache
 {
   "cst_id": "test",
-  "custKey": "abcd1234567890"
+  "custKey": "abcd1234567890",
+  "PCD_PAY_TYPE": "card"
 }
 ```
 * 승인 - Response
@@ -264,81 +265,99 @@ Host: testcpay.payple.kr
 Content-Type: application/json
 Cache-Control: no-cache
 {
-   "PCD_CST_ID": "test",
-   "PCD_CUST_KEY": "abcd1234567890",
+   "PCD_CST_ID": "리턴받은 cst_id",
+   "PCD_CUST_KEY": "리턴받은 custKey",
    "PCD_AUTH_KEY": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
-   "PCD_PAY_TYPE": "card",							
-   "PCD_PAYER_NO": "2324",
+   "PCD_PAY_TYPE": "card",		
    "PCD_PAYER_ID": "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
+   "PCD_PAYER_NO": "2324",
+   "PCD_PAYER_HP" : "01023456789",
+   "PCD_PAYER_EMAIL": "dev@payple.kr",
    "PCD_PAY_GOODS": "정기구독",
+   "PCD_PAY_TOTAL": "1000",
+   “PCD_PAY_ISTAX”: “Y”,
+   "PCD_PAY_OID": "test201804000001",
    "PCD_PAY_YEAR": "2018",	
    "PCD_PAY_MONTH": "04",	
-   "PCD_PAY_TOTAL": "1000",
-   "PCD_PAY_OID": "test201804000001",
    "PCD_REGULER_FLAG": "Y",
-   "PCD_PAYER_EMAIL": "dev@payple.kr",
-   "PCD_PAYER_HP" : "01023456789"
+   "PCD_USER_DEFINE1" : ”가맹점 정의1”,
+   “PCD_USER_DEFINE2”: ”가맹점 정의2”
 }
 ```
 
-파라미터 ID | 설명 | 필수 | 비고
-:----: | :----: | :----: | :----:
-PCD_CST_ID | 가맹점 ID | O | 
-PCD_CUST_KEY | 가맹점 식별을 위한 비밀키 | O | 
-PCD_AUTH_KEY | 결제요청을 위한 Transaction 키 | O | 
-PCD_PAY_TYPE | 결제수단 | O | 
-PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | O | 
-PCD_PAYER_ID | 결제 키 | O | 해당 키를 통해 결제요청
-PCD_PAY_GOODS | 상품명 | O | 
-PCD_PAY_YEAR | 과금연도 | O | PCD_REGULER_FLAG 시 필수  
-PCD_PAY_MONTH | 과금월 | O | PCD_REGULER_FLAG 시 필수
-PCD_PAY_TOTAL | 결제금액 | O | 
-PCD_PAY_OID | 주문번호 | O | 
-PCD_REGULER_FLAG | 정기결제 여부 | O | 월 2회 이상 결제 시 PCD_SIMPLE_FLAG 이용 
-PCD_PAYER_EMAIL | 결제고객 이메일 | - | 
-PCD_PAYER_HP | 결제고객 휴대폰번호 | - | 결제고객에게 결제내용에 대한 알림톡이 발송됩니다.
+필드명 | 필수 | 타입 | 길이 | 값 | 설명
+:----: | :----: | :----: | :----: | :----: | :----:
+PCD_CST_ID | O | C | 8 | UFVNNVZpZk4reWo5UFRualUwcGV4dz09 | 가맹점 인증 후 리턴받은 cst_id Token | 
+PCD_CUST_KEY | O | C | 255 | T3JzRkp5L1FTcEFDa1FQdHo5Um1UZz09 | 가맹점 인증 후 리턴받은 custKey Token | 
+PCD_AUTH_KEY | O | C | 20 | a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e3 | 가맹점 인증 후 리턴받은 인증 Token |
+PCD_PAY_TYPE | O | C | 20 | card | ‘card’ - 고정값 |
+PCD_PAYER_ID | O | C | 255 | d0toSS9sT084bVJSNThScnFXQm9Gdz09 | 카드등록 후 리턴받은 결제(빌링) KEY |
+PCD_PAYER_NO | - | N | 255 | 2324 | 사용자 필드, 결과에 그대로 리턴 |
+PCD_PAYER_HP | - | C | 20 | 01023457896 | 고객 휴대폰번호를 전송하시면 고객의 승인문자 민원을 방지하기 위한 알림톡이 발송됩니다. |
+PCD_PAYER_EMAIL | - | C | 100 | dev@payple.kr | 결과 발송 Email | 
+PCD_PAY_GOODS | O | C | 2048 | 정기구독 | 상품명 |
+PCD_PAY_TOTAL | O | N | 20 | 1000 | 카드승인 요청금액(최소 100원) | 
+PCD_PAY_ISTAX | - | C | 1 | Y | 과세설정(Default: Y, 비과세: N) |
+PCD_PAY_OID | O | C | 255 | test099942200156938 | 주문번호 |
+PCD_PAY_YEAR | O | C | 4 | 2019 | 결제 구분 년도 |
+PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
+PCD_REGULER_FLAG | O | C | 1 | Y | ‘Y’ - 고정값 |
+PCD_USER_DEFINE1 | - | C | 2048 | 가맹점 입력값 1 | 가맹점 사용 필드 1 | 
+PCD_USER_DEFINE2 | - | C | 2048 | 가맹점 입력값 2 | 가맹점 사용 필드 2 | 
 
 * Response 예시 
 ```html
 {
   "PCD_PAY_RST" => "success",
-  "PCD_PAY_MSG" => "완료",
-  "PCD_PAY_OID" => "test201804000001",	
+  "PCD_PAY_CODE” => “SPCD0000”,
+  "PCD_PAY_MSG" => "결제완료",
   "PCD_PAY_TYPE" => "card",
+  "PCD_PAY_OID" => "test201804000001",	
   "PCD_PAYER_NO" => "2324",
   "PCD_PAYER_ID" => "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
-  "PCD_PAY_YEAR" => "2018",
-  "PCD_PAY_MONTH" => "04",
+  "PCD_PAYER_EMAIL" => "dev@payple.kr"
+  "PCD_PAY_YEAR" => "2019",
+  "PCD_PAY_MONTH" => "09",
   "PCD_PAY_GOODS" => "정기구독",
   "PCD_PAY_TOTAL" => "1000",
+  “PCD_PAY_ISTAX”: “Y”,
   "PCD_PAY_TIME" => "20180423130201",
   "PCD_PAY_CARDNANE" => "BC 카드",
-  "PCD_PAY_CARDNUM" => "12345678****1234",
+  "PCD_PAY_CARDNUM" => "1111********4444",
   "PCD_PAY_CARDTRADENUM" => "201904141320332692022400",
+  "PCD_PAY_CARDAUTHNO” => “98123445”,
+  "PCD_PAY_CARDRECEIPT” => “https://www.danalpay.com/receipt/creditcard/view.aspx?dataType=receipt&cpid=9810030929&data=jq8%2BUmqBzYoCy%2BchBEE….”,
   "PCD_REGULER_FLAG" => "Y",
-  "PCD_PAYER_EMAIL" => "dev@payple.kr"
+  "PCD_USER_DEFINE1” => “가맹점 정의1”,
+  "PCD_USER_DEFINE2” => “가맹점 정의2”
 }
 ```
 * Response 파라미터 설명
 
-파라미터 ID | 설명 | 예시
-:----: | :----: | :----: 
-PCD_PAY_RST | 요청 결과 | success / error 
-PCD_PAY_MSG | 요청 결과 메세지 | 완료 / 실패
-PCD_PAY_OID | 주문번호 | test201804000001
-PCD_PAY_TYPE | 결제수단 | card 
-PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | 2324
-PCD_PAYER_ID | 결제 키 | NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09
-PCD_PAY_YEAR | 과금연도 | 2018 
-PCD_PAY_MONTH | 과금월 | 04
-PCD_PAY_GOODS | 상품명 | 정기구독
-PCD_PAY_TOTAL | 결제금액 | 1000
-PCD_PAY_TIME | 결제완료 시간 | 20180110152911
-PCD_PAY_CARDNANE | 카드사명 | BC카드
-PCD_PAY_CARDNUM | 카드번호 | 
-PCD_PAY_CARDTRADENUM | 카드승인 거래번호 | 201904141320332692022400
-PCD_REGULER_FLAG | 정기결제 여부 | Y / N
-PCD_PAYER_EMAIL | 결제고객 이메일 | dev@payple.kr
+필드명 | 필수 | 타입 | 길이 | 값 | 설명
+:----: | :----: | :----: | :----: | :----: | :----:
+PCD_PAY_RST | O | C | 8 | success, error | 결제요청 결과 | 
+PCD_PAY_CODE | O | C | 8 | CDAU0000 | 결제요청 결과 코드 | 
+PCD_PAY_MSG | O | C | 255 | 결제완료 | 결제요청 결과 메세지 |
+PCD_PAY_TYPE | O | C | 20 | card | ‘card’ - 고정값 |
+PCD_PAY_OID | O | C | 255 | test099942200156938 | 주문번호 |
+PCD_PAYER_NO | - | N | 255 | 2324 | 사용자 필드, 결과에 그대로 리턴 |
+PCD_PAYER_ID | O | C | 255 | d0toSS9sT084bVJSNThScnFXQm9Gdz09 | 결제(빌링) KEY |
+PCD_PAYER_EMAIL | - | C | 100 | dev@payple.kr | 결과 발송 Email | 
+PCD_PAY_YEAR | O | C | 4 | 2019 | 결제 구분 년도 |
+PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
+PCD_PAY_GOODS | O | C | 2048 | 정기구독 | 상품명 |
+PCD_PAY_TOTAL | O | N | 20 | 1000 | 카드승인 요청금액(최소 100원) | 
+PCD_PAY_ISTAX | - | C | 1 | Y | 과세설정(Default: Y, 비과세: N) |
+PCD_PAY_TIME | O | D | 14 | 20190901140130 | 결제시간 |
+PCD_PAY_CARDNAME | O | C | 100 | BC 카드 | 카드사명 |
+PCD_PAY_CARDNUM | O | C | 16 | 1111 * * * * * * * * 4444 | 카드번호(중간 8자리 * 처리) |  
+PCD_PAY_CARDTRADENUM | O | C | 24 | 2019041413203326920 | 거래 키 |
+PCD_PAY_CARDAUTHNO | O | C | 128 | 98123445 | 승인번호 |
+PCD_PAY_CARDRECEIPT | O | C | 1024 | ... | 매출전표 출력 링크 |
+PCD_REGULER_FLAG | O | C | 1 | Y | ‘Y’ - 고정값 |
+PCD_USER_DEFINE1 | - | C | 2048 | 가맹점 입력값 1 | 가맹점 사용 필드 1 | 
+PCD_USER_DEFINE2 | - | C | 2048 | 가맹점 입력값 2 | 가맹점 사용 필드 2 | 
 
 <br><br><br>
 ### 4. 승인취소 
@@ -349,48 +368,48 @@ PCD_PAYER_EMAIL | 결제고객 이메일 | dev@payple.kr
 POST /php/auth.php HTTP/1.1
 Host: testcpay.payple.kr
 Content-Type: application/json
+Referer: http://localhost:8080
 Cache-Control: no-cache
 {
   "cst_id": "test",
   "custKey": "abcd1234567890",
-  "PCD_PAY_WORK": "PCD_PAYCANCEL_FLAG": "Y"
+  "PCD_PAYCANCEL_FLAG": "Y"
 }
 
 <!-- 승인취소 요청  -->
 POST /php/PayChkAct.php HTTTP/1.1
 Host: testcpay.payple.kr
 Content-Type: application/json
-Cache-Control: no-cache
+Referer: http://localhost:8080
+Cache-Control: no-cache	
 {
-  "PCD_CST_ID" : "test",
-  "PCD_CUST_KEY" : "abcd1234567890",
-  "PCD_AUTH_KEY" : "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
+  "PCD_CST_ID": "리턴받은 cst_id",
+  "PCD_CUST_KEY": "리턴받은 custKey",
+  "PCD_AUTH_KEY": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",  
   "PCD_REFUND_KEY" : "a41ce010ede9fcbfb3be86b24858806596a9db68b79d138b147c3e563e1829a0",
   "PCD_PAYCANCEL_FLAG": "Y",
   "PCD_PAY_OID": "test201804000001",
-  "PCD_PAY_TYPE": "card",
   "PCD_REGULER_FLAG": "Y",
-  "PCD_PAY_YEAR": "2019",
-  "PCD_PAY_MONTH": "05",
-  "PCD_PAY_DATE": "20180502",
-  "PCD_REFUND_TOTAL": "1000"
+  "PCD_PAY_YEAR": 2019,
+  "PCD_PAY_MONTH": "09",
+  "PCD_PAY_DATE": 20180502,
+  "PCD_REFUND_TOTAL": 1000
 }
 ```
 
-파라미터 ID | 설명 | 필수 | 비고
-:----: | :----: | :----: | :----:
-PCD_CST_ID | 가맹점 ID | O | 
-PCD_CUST_KEY | 가맹점 식별을 위한 비밀키 | O | 
-PCD_AUTH_KEY | 결제요청을 위한 Transaction 키 | O | 
-PCD_REFUND_KEY | 취소용 키 | O | 관리자화면에서 확인 가능 
-PCD_PAYCANCEL_FLAG | 취소요청 여부 | O | 
-PCD_PAY_OID | 주문번호 | O | 
-PCD_PAY_TYPE | 결제수단 | O | 
-PCD_REGULER_FLAG | 정기결제 여부 | - | 
-PCD_PAY_YEAR | 정기결제 구분 연도 | - | 
-PCD_PAY_MONTH | 정기결제 구분 월 | - | 
-PCD_PAY_DATE | 결제일자 | O | YYYYMMDD 
-PCD_REFUND_TOTAL | 취소금액 | O | 원거래금액 미만 취소 시 부분취소 적용 
+필드명 | 필수 | 타입 | 길이 | 값 | 설명
+:----: | :----: | :----: | :----: | :----: | :----:
+PCD_CST_ID | O | C | 8 | UFVNNVZpZk4reWo5UFRualUwcGV4dz09 | 가맹점 인증 후 리턴받은 cst_id Token | 
+PCD_CUST_KEY | O | C | 255 | T3JzRkp5L1FTcEFDa1FQdHo5Um1UZz09 | 가맹점 인증 후 리턴받은 custKey Token | 
+PCD_AUTH_KEY | O | C | 20 | a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e3 | 가맹점 인증 후 리턴받은 인증 Token |
+PCD_REFUND_KEY | O | C | 255 | a41ce010ede9fcbfb3be86b24858806596a9db68b79d138b147c3e563e1829a0 | 취소요청  Token(관리자화면에서 확인 가능) |
+PCD_PAYCANCEL_FLAG | O | C | 1 | Y | 'Y' - 고정값 |
+PCD_PAY_OID | O | C | 255 | test099942200156938 | 주문번호 |
+PCD_PAY_YEAR | O | C | 4 | 2019 | 결제 구분 년도 |
+PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
+PCD_REGULER_FLAG | O | C | 1 | Y | ‘Y’ - 고정값 |
+PCD_USER_DEFINE1 | - | C | 2048 | 가맹점 입력값 1 | 가맹점 사용 필드 1 | 
+PCD_USER_DEFINE2 | - | C | 2048 | 가맹점 입력값 2 | 가맹점 사용 필드 2 | 
 
 * Response 예시 
 ```html
