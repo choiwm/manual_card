@@ -287,11 +287,11 @@ Cache-Control: no-cache
 
 필드명 | 필수 | 타입 | 길이 | 값 | 설명
 :----: | :----: | :----: | :----: | :----: | :----:
-PCD_CST_ID | O | C | 8 | UFVNNVZpZk4reWo5UFRualUwcGV4dz09 | 가맹점 인증 후 리턴받은 cst_id Token | 
-PCD_CUST_KEY | O | C | 255 | T3JzRkp5L1FTcEFDa1FQdHo5Um1UZz09 | 가맹점 인증 후 리턴받은 custKey Token | 
-PCD_AUTH_KEY | O | C | 20 | a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e3 | 가맹점 인증 후 리턴받은 인증 Token |
+PCD_CST_ID | O | C | 8 | UFVN... | 가맹점 인증 후 리턴받은 cst_id Token | 
+PCD_CUST_KEY | O | C | 255 | T3Jz... | 가맹점 인증 후 리턴받은 custKey Token | 
+PCD_AUTH_KEY | O | C | 20 | a688c... | 가맹점 인증 후 리턴받은 인증 Token |
 PCD_PAY_TYPE | O | C | 20 | card | ‘card’ - 고정값 |
-PCD_PAYER_ID | O | C | 255 | d0toSS9sT084bVJSNThScnFXQm9Gdz09 | 카드등록 후 리턴받은 결제(빌링) KEY |
+PCD_PAYER_ID | O | C | 255 | d0to... | 카드등록 후 리턴받은 결제(빌링) KEY |
 PCD_PAYER_NO | - | N | 255 | 2324 | 사용자 필드, 결과에 그대로 리턴 |
 PCD_PAYER_HP | - | C | 20 | 01023457896 | 고객 휴대폰번호를 전송하시면 고객의 승인문자 민원을 방지하기 위한 알림톡이 발송됩니다. |
 PCD_PAYER_EMAIL | - | C | 100 | dev@payple.kr | 결과 발송 Email | 
@@ -342,7 +342,7 @@ PCD_PAY_MSG | O | C | 255 | 결제완료 | 결제요청 결과 메세지 |
 PCD_PAY_TYPE | O | C | 20 | card | ‘card’ - 고정값 |
 PCD_PAY_OID | O | C | 255 | test099942200156938 | 주문번호 |
 PCD_PAYER_NO | - | N | 255 | 2324 | 사용자 필드, 결과에 그대로 리턴 |
-PCD_PAYER_ID | O | C | 255 | d0toSS9sT084bVJSNThScnFXQm9Gdz09 | 결제(빌링) KEY |
+PCD_PAYER_ID | O | C | 255 | d0to... | 결제(빌링) KEY |
 PCD_PAYER_EMAIL | - | C | 100 | dev@payple.kr | 결과 발송 Email | 
 PCD_PAY_YEAR | O | C | 4 | 2019 | 결제 구분 년도 |
 PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
@@ -399,10 +399,10 @@ Cache-Control: no-cache
 
 필드명 | 필수 | 타입 | 길이 | 값 | 설명
 :----: | :----: | :----: | :----: | :----: | :----:
-PCD_CST_ID | O | C | 8 | UFVNNVZpZk4reWo5UFRualUwcGV4dz09 | 가맹점 인증 후 리턴받은 cst_id Token | 
-PCD_CUST_KEY | O | C | 255 | T3JzRkp5L1FTcEFDa1FQdHo5Um1UZz09 | 가맹점 인증 후 리턴받은 custKey Token | 
-PCD_AUTH_KEY | O | C | 20 | a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e3 | 가맹점 인증 후 리턴받은 인증 Token |
-PCD_REFUND_KEY | O | C | 255 | a41ce010ede9fcbfb3be86b24858806596a9db68b79d138b147c3e563e1829a0 | 취소요청  Token(관리자화면에서 확인 가능) |
+PCD_CST_ID | O | C | 8 | UFVN... | 가맹점 인증 후 리턴받은 cst_id Token | 
+PCD_CUST_KEY | O | C | 255 | T3Jz... | 가맹점 인증 후 리턴받은 custKey Token | 
+PCD_AUTH_KEY | O | C | 20 | a688c... | 가맹점 인증 후 리턴받은 인증 Token |
+PCD_REFUND_KEY | O | C | 255 | a41c... | 취소요청  Token(관리자화면에서 확인 가능) |
 PCD_PAYCANCEL_FLAG | O | C | 1 | Y | 'Y' - 고정값 |
 PCD_PAY_OID | O | C | 255 | test099942200156938 | 주문번호 |
 PCD_REGULER_FLAG | O | C | 1 | Y | ‘Y’ - 고정값 |
@@ -437,7 +437,7 @@ PCD_PAY_MSG | O | C | 255 | 환불성공 | 취소 결과 메세지 |
 PCD_PAY_TYPE | O | C | 20 | card | ‘card’ - 고정값 |
 PCD_PAY_OID | O | C | 255 | test099942200156938 | 주문번호 |
 PCD_PAYER_NO | - | N | 255 | 2324 | 사용자 필드, 결과에 그대로 리턴 |
-PCD_PAYER_ID | O | C | 255 | d0toSS9sT084bVJSNThScnFXQm9Gdz09 | 결제(빌링) KEY |
+PCD_PAYER_ID | O | C | 255 | d0to... | 결제(빌링) KEY |
 PCD_PAY_YEAR | O | C | 4 | 2019 | 결제 구분 년도 |
 PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
 PCD_REGULER_FLAG | O | C | 1 | Y | ‘Y’ - 고정값 |
