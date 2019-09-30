@@ -405,42 +405,43 @@ PCD_AUTH_KEY | O | C | 20 | a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2
 PCD_REFUND_KEY | O | C | 255 | a41ce010ede9fcbfb3be86b24858806596a9db68b79d138b147c3e563e1829a0 | 취소요청  Token(관리자화면에서 확인 가능) |
 PCD_PAYCANCEL_FLAG | O | C | 1 | Y | 'Y' - 고정값 |
 PCD_PAY_OID | O | C | 255 | test099942200156938 | 주문번호 |
+PCD_REGULER_FLAG | O | C | 1 | Y | ‘Y’ - 고정값 |
 PCD_PAY_YEAR | O | C | 4 | 2019 | 결제 구분 년도 |
 PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
-PCD_REGULER_FLAG | O | C | 1 | Y | ‘Y’ - 고정값 |
-PCD_USER_DEFINE1 | - | C | 2048 | 가맹점 입력값 1 | 가맹점 사용 필드 1 | 
-PCD_USER_DEFINE2 | - | C | 2048 | 가맹점 입력값 2 | 가맹점 사용 필드 2 | 
+PCD_PAY_DATE | O | C | 8 | 20190801 | 취소할 원거래일자 |
+PCD_REFUND_TOTAL | O | N | 20 | 1000 | 승인취소 신청금액(기존 결제금액보다 낮은 금액 입력시 부분취소로 진행) | 
 
 * Response 예시 
 ```html
 {
   "PCD_PAY_RST" => "success",
-  "PCD_PAY_MSG" => "취소완료",
+  “PCD_PAY_CODE” => “PAYC0000”,
+  "PCD_PAY_MSG" => "환불성공",
+  "PCD_PAY_TYPE" => "card",			
   "PCD_PAY_OID" => "test201804000001",
-  "PCD_PAY_TYPE" => "card",
+  "PCD_PAYER_NO" => "1234",
   "PCD_PAYER_ID" => "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
-  "PCD_PAYER_NO" => "2324",
-  "PCD_REGULER_FLAG" => "Y",
   "PCD_PAY_YEAR" => "2019",
-  "PCD_PAY_MONTH" => "05",
-  "PCD_PAY_GOODS" => "간편구독",
-  "PCD_REFUND_TOTAL" => "1000"
+  "PCD_PAY_MONTH" => "09",
+  "PCD_PAY_GOODS" => "정기구독",	
+  "PCD_REGULER_FLAG" => "Y",
+  "PCD_REFUND_TOTAL" => 1000
 }
 ```
 * Response 파라미터 설명
-
-파라미터 ID | 설명 | 예시
-:----: | :----: | :----: 
-PCD_PAY_RST | 승인취소 요청 결과 | success / error 
-PCD_PAY_MSG | 승인취소 요청 결과 메세지 | 취소완료 / 실패
-PCD_PAY_TYPE | 결제수단 | card 
-PCD_PAYER_ID | 결제 키 | NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09
-PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | 2324
-PCD_REGULER_FLAG | 정기결제 여부 | Y / N
-PCD_PAY_YEAR | 정기결제 과금 연도 | 2019
-PCD_PAY_MONTH | 정기결제 과금 월 | 05
-PCD_PAY_GOODS | 결제 상품명 | 간편구독
-PCD_REFUND_TOTAL | 취소금액 | 1000
+필드명 | 필수 | 타입 | 길이 | 값 | 설명
+:----: | :----: | :----: | :----: | :----: | :----:
+PCD_PAY_RST | O | C | 8 | success, error | 취소 결과 | 
+PCD_PAY_CODE | O | C | 8 | PAYC0000 | 취소 결과코드 | 
+PCD_PAY_MSG | O | C | 255 | 환불성공 | 취소 결과 메세지 |
+PCD_PAY_TYPE | O | C | 20 | card | ‘card’ - 고정값 |
+PCD_PAY_OID | O | C | 255 | test099942200156938 | 주문번호 |
+PCD_PAYER_NO | - | N | 255 | 2324 | 사용자 필드, 결과에 그대로 리턴 |
+PCD_PAYER_ID | O | C | 255 | d0toSS9sT084bVJSNThScnFXQm9Gdz09 | 결제(빌링) KEY |
+PCD_PAY_YEAR | O | C | 4 | 2019 | 결제 구분 년도 |
+PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
+PCD_REGULER_FLAG | O | C | 1 | Y | ‘Y’ - 고정값 |
+PCD_REFUND_TOTAL | O | N | 20 | 1000 | 취소금액 | 
 
 <br><br><br>
 ### 5. 등록카드 해지(정기결제) 
