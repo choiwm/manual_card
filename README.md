@@ -400,10 +400,11 @@ Cache-Control: no-cache
   "PCD_PAYCANCEL_FLAG": "Y",
   "PCD_PAY_OID": "test201804000001",
   "PCD_REGULER_FLAG": "Y",
-  "PCD_PAY_YEAR": 2019,
+  "PCD_PAY_YEAR": "2019",
   "PCD_PAY_MONTH": "09",
   "PCD_PAY_DATE": 20180502,
-  "PCD_REFUND_TOTAL": 1000
+  "PCD_REFUND_TOTAL": 1000,
+  "PCD_PAY_TAXTOTAL" : 10
 }
 ```
 
@@ -420,6 +421,7 @@ PCD_PAY_YEAR | O | C | 4 | 2019 | 결제 구분 년도 |
 PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
 PCD_PAY_DATE | O | C | 8 | 20190801 | 취소할 원거래일자 |
 PCD_REFUND_TOTAL | O | N | 20 | 1000 | 승인취소 신청금액(기존 결제금액보다 낮은 금액 입력시 부분취소로 진행) | 
+PCD_PAY_TAXTOTAL | - | N | 20 | 10 | 복합과세 주문건(과세+면세)에 필요한 항목이며 가맹점에서 전송한 값을 부가세로 설정합니다. |
 
 * Response 예시 
 ```html
@@ -435,7 +437,8 @@ PCD_REFUND_TOTAL | O | N | 20 | 1000 | 승인취소 신청금액(기존 결제�
   "PCD_PAY_MONTH" => "09",
   "PCD_PAY_GOODS" => "정기구독",	
   "PCD_REGULER_FLAG" => "Y",
-  "PCD_REFUND_TOTAL" => 1000
+  "PCD_REFUND_TOTAL" => 1000,
+  "PCD_PAY_TAXTOTAL" => 10
 }
 ```
 
@@ -454,6 +457,7 @@ PCD_PAY_YEAR | O | C | 4 | 2019 | 결제 구분 년도 |
 PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
 PCD_REGULER_FLAG | O | C | 1 | Y | ‘Y’ - 고정값 |
 PCD_REFUND_TOTAL | O | N | 20 | 1000 | 취소금액 | 
+PCD_PAY_TAXTOTAL | - | N | 20 | 10 | 복합과세 주문건(과세+면세)에 필요한 항목이며 가맹점에서 전송한 값을 부가세로 설정합니다. |
 
 <br><br><br>
 ### 5. 등록카드 해지(정기결제) 
