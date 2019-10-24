@@ -276,6 +276,7 @@ Cache-Control: no-cache
    "PCD_PAY_GOODS": "정기구독",
    "PCD_PAY_TOTAL": "1000",
    “PCD_PAY_ISTAX”: “Y”,
+   “PCD_PAY_TAXTOTAL”: “10”,
    "PCD_PAY_OID": "test201804000001",
    "PCD_PAY_YEAR": "2018",	
    "PCD_PAY_MONTH": "04",	
@@ -298,6 +299,7 @@ PCD_PAYER_EMAIL | - | C | 100 | dev@payple.kr | 결과 발송 Email |
 PCD_PAY_GOODS | O | C | 2048 | 정기구독 | 상품명 |
 PCD_PAY_TOTAL | O | N | 20 | 1000 | 카드승인 요청금액(최소 100원) | 
 PCD_PAY_ISTAX | - | C | 1 | Y | 과세설정(Default: Y, 비과세: N) |
+PCD_PAY_TAXTOTAL | - | N | | 10 | 복합과세 주문건(과세+면세)에 필요한 항목이며 가맹점에서 전송한 값을 부가세로 설정합니다. |
 PCD_PAY_OID | O | C | 255 | test099942200156938 | 주문번호 |
 PCD_PAY_YEAR | O | C | 4 | 2019 | 결제 구분 년도 |
 PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
@@ -321,6 +323,7 @@ PCD_USER_DEFINE2 | - | C | 2048 | 가맹점 입력값 2 | 가맹점 사용 필�
   "PCD_PAY_GOODS" => "정기구독",
   "PCD_PAY_TOTAL" => "1000",
   “PCD_PAY_ISTAX”: “Y”,
+  “PCD_PAY_TAXTOTAL”: “10”,
   "PCD_PAY_TIME" => "20180423130201",
   "PCD_PAY_CARDNANE" => "BC 카드",
   "PCD_PAY_CARDNUM" => "1111********4444",
@@ -349,6 +352,7 @@ PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
 PCD_PAY_GOODS | O | C | 2048 | 정기구독 | 상품명 |
 PCD_PAY_TOTAL | O | N | 20 | 1000 | 카드승인 요청금액(최소 100원) | 
 PCD_PAY_ISTAX | - | C | 1 | Y | 과세설정(Default: Y, 비과세: N) |
+PCD_PAY_TAXTOTAL | - | N | | 10 | 복합과세 주문건(과세+면세)에 필요한 항목이며 가맹점에서 전송한 값을 부가세로 설정합니다. |
 PCD_PAY_TIME | O | D | 14 | 20190901140130 | 결제시간 |
 PCD_PAY_CARDNAME | O | C | 100 | BC 카드 | 카드사명 |
 PCD_PAY_CARDNUM | O | C | 16 | 1111 * * * * * * * * 4444 | 카드번호(중간 8자리 * 처리) |  
