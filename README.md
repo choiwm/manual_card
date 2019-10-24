@@ -276,13 +276,13 @@ Cache-Control: no-cache
    "PCD_AUTH_KEY": "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
    "PCD_PAY_TYPE": "card",		
    "PCD_PAYER_ID": "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
-   "PCD_PAYER_NO": "2324",
+   "PCD_PAYER_NO": 2324,
    "PCD_PAYER_HP" : "01023456789",
    "PCD_PAYER_EMAIL": "dev@payple.kr",
    "PCD_PAY_GOODS": "정기구독",
-   "PCD_PAY_TOTAL": "1000",
+   "PCD_PAY_TOTAL": 1000,
    “PCD_PAY_ISTAX”: “Y”,
-   “PCD_PAY_TAXTOTAL”: “10”,
+   “PCD_PAY_TAXTOTAL”: 10,
    "PCD_PAY_OID": "test201804000001",
    "PCD_PAY_YEAR": "2018",	
    "PCD_PAY_MONTH": "04",	
@@ -321,15 +321,15 @@ PCD_USER_DEFINE2 | - | C | 2048 | 가맹점 입력값 2 | 가맹점 사용 필�
   "PCD_PAY_MSG" => "결제완료",
   "PCD_PAY_TYPE" => "card",
   "PCD_PAY_OID" => "test201804000001",	
-  "PCD_PAYER_NO" => "2324",
+  "PCD_PAYER_NO" => 2324,
   "PCD_PAYER_ID" => "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
   "PCD_PAYER_EMAIL" => "dev@payple.kr"
   "PCD_PAY_YEAR" => "2019",
   "PCD_PAY_MONTH" => "09",
   "PCD_PAY_GOODS" => "정기구독",
-  "PCD_PAY_TOTAL" => "1000",
+  "PCD_PAY_TOTAL" => 1000,
   “PCD_PAY_ISTAX”: “Y”,
-  “PCD_PAY_TAXTOTAL”: “10”,
+  “PCD_PAY_TAXTOTAL”: 10,
   "PCD_PAY_TIME" => "20180423130201",
   "PCD_PAY_CARDNANE" => "BC 카드",
   "PCD_PAY_CARDNUM" => "1111********4444",
@@ -431,7 +431,7 @@ PCD_PAY_TAXTOTAL | - | N | 20 | 10 | 복합과세 주문건(과세+면세)에 �
   "PCD_PAY_MSG" => "환불성공",
   "PCD_PAY_TYPE" => "card",			
   "PCD_PAY_OID" => "test201804000001",
-  "PCD_PAYER_NO" => "1234",
+  "PCD_PAYER_NO" => 1234,
   "PCD_PAYER_ID" => "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
   "PCD_PAY_YEAR" => "2019",
   "PCD_PAY_MONTH" => "09",
@@ -485,7 +485,7 @@ Cache-Control: no-cache
   "PCD_CUST_KEY" : "abcd1234567890",
   "PCD_AUTH_KEY" : "a688ccb3555c25cd722483f03e23065c3d0251701ad6da895eb2d830bc06e34d",
   "PCD_PAYER_ID" : "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
-  "PCD_PAYER_NO" : "2324"
+  "PCD_PAYER_NO" : 2324
 }
 ```
 
@@ -505,7 +505,7 @@ PCD_PAYER_NO | 가맹점의 결제고객 고유번호 | - |
   "PCD_PAY_TYPE" => "card",
   "PCD_PAY_WORK" => "PUSERDEL",
   "PCD_PAYER_ID" => "NS9qNTgzU2xRNHR2RmFBWWFBTWk5UT09",
-  "PCD_PAYER_NO" => "2324"
+  "PCD_PAYER_NO" => 2324
 }
 ```
 * Response 파라미터 설명
