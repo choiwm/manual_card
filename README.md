@@ -144,6 +144,8 @@ $(document).ready( function () {
         var buyer_email = "dev@payple.kr";
         var buy_goods = "휴대폰";
         var buy_total = "1000";
+	var pay_istax = "";
+	var pay_taxtotal = "10";
         var order_num = "test0553941001540967923";
         var is_reguler = "N";
         var pay_year = "";
@@ -173,6 +175,8 @@ $(document).ready( function () {
         obj.PCD_PAYER_EMAIL = buyer_email;
         obj.PCD_PAY_GOODS = buy_goods;
         obj.PCD_PAY_TOTAL = buy_total;
+	obj.PCD_PAY_ISTAX = pay_istax;
+	obj.PCD_PAY_TAXTOTAL = pay_taxtotal;
         obj.PCD_PAY_OID = order_num;     
         obj.PCD_REGULER_FLAG = is_reguler;
         obj.PCD_PAY_YEAR = pay_year; 
@@ -199,6 +203,8 @@ PCD_PAYER_HP | 결제고객 휴대폰번호 | - | 결제고객에게 결제내�
 PCD_PAYER_EMAIL | 결제고객 이메일 | - | 
 PCD_PAY_GOODS | 상품명 | O | 
 PCD_PAY_TOTAL | 결제금액 | O | 
+PCD_PAY_ISTAX | 과세설정 | - | Default: Y, 비과세: N
+PCD_PAY_TAXTOTAL | 복합과세 부가세 | - | 복합과세 주문건(과세+면세)에 필요한 항목이며 가맹점에서 전송한 값을 부가세로 설정합니다.
 PCD_PAY_OID | 주문번호 | - | 미입력시 임의생성 
 PCD_REGULER_FLAG | 정기결제 여부 | - | 
 PCD_PAY_YEAR | 정기결제 적용연도 | - | PCD_REGULER_FLAG : 'Y' 일때 필수
@@ -299,7 +305,7 @@ PCD_PAYER_EMAIL | - | C | 100 | dev@payple.kr | 결과 발송 Email |
 PCD_PAY_GOODS | O | C | 2048 | 정기구독 | 상품명 |
 PCD_PAY_TOTAL | O | N | 20 | 1000 | 카드승인 요청금액(최소 100원) | 
 PCD_PAY_ISTAX | - | C | 1 | Y | 과세설정(Default: Y, 비과세: N) |
-PCD_PAY_TAXTOTAL | - | N | | 10 | 복합과세 주문건(과세+면세)에 필요한 항목이며 가맹점에서 전송한 값을 부가세로 설정합니다. |
+PCD_PAY_TAXTOTAL | - | N | 20 | 10 | 복합과세 주문건(과세+면세)에 필요한 항목이며 가맹점에서 전송한 값을 부가세로 설정합니다. |
 PCD_PAY_OID | O | C | 255 | test099942200156938 | 주문번호 |
 PCD_PAY_YEAR | O | C | 4 | 2019 | 결제 구분 년도 |
 PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
