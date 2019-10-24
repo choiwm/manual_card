@@ -358,7 +358,7 @@ PCD_PAY_MONTH | O | C | 2 | 09 | 결제 구분 월 |
 PCD_PAY_GOODS | O | C | 2048 | 정기구독 | 상품명 |
 PCD_PAY_TOTAL | O | N | 20 | 1000 | 카드승인 요청금액(최소 100원) | 
 PCD_PAY_ISTAX | - | C | 1 | Y | 과세설정(Default: Y, 비과세: N) |
-PCD_PAY_TAXTOTAL | - | N | | 10 | 복합과세 주문건(과세+면세)에 필요한 항목이며 가맹점에서 전송한 값을 부가세로 설정합니다. |
+PCD_PAY_TAXTOTAL | - | N | 20 | 10 | 복합과세 주문건(과세+면세)에 필요한 항목이며 가맹점에서 전송한 값을 부가세로 설정합니다. |
 PCD_PAY_TIME | O | D | 14 | 20190901140130 | 결제시간 |
 PCD_PAY_CARDNAME | O | C | 100 | BC 카드 | 카드사명 |
 PCD_PAY_CARDNUM | O | C | 16 | 1111 * * * * * * * * 4444 | 카드번호(중간 8자리 * 처리) |  
